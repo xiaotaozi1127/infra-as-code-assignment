@@ -1,0 +1,28 @@
+name: "Deploy Infrastructure"
+on:
+  workflow_dispatch:
+  push:
+    branches: 
+    - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  Terraform-Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: "eu-west-2"
+          role-to-assume: "arn:aws:iam::510769981514:role/GitHubActionsDeploymentRole"
+
+      - name: Terraform Setup
+        uses: hashicorp/setup-terraform@v3
+
+      # Add steps to deploy your terraform code here
