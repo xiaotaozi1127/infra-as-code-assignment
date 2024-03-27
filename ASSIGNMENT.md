@@ -9,7 +9,7 @@ This is a template repo for participants use to create their assignment solution
 3. Deploy the solution successfully using Github Actions
 4. Update README.md to provide guidance based on your implementation
 
-![Assignment details and diagram](https://github.com/tw-infrastructure-academy/ia001-assignment-solution-template/blob/main/images/assignment.png)
+![Assignment details and diagram](https://github.com/twlabs/infra-as-code-assignment/blob/main/images/assignment.png)
 
 
 ## Components
