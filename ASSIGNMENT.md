@@ -48,7 +48,7 @@ Use “PAY_PER_REQUEST” as the billing mode, to avoid billing of idle resource
 
 ## Implementation Instructions
 1. Create a new private repo based on a clone of this repo.
-2. Use the shared AWS account #510769981514 (TW_TDEV_INFRACA:CORETEAM:DEV) and an AWS region which is suitable in relation to your geographical location for your deployments.
+2. Use the AWS Beach account #160071257600 (TW_CORE_BEACH_R_D) and an AWS region which is suitable in relation to your geographical location for your deployments.  For more information on how to access the AWS Beach account see [BEACH.md](./BEACH.md).
 3. It's possible you could create resources with the same name as others in this AWS account, to avoid conflicts wherever possible please use unique names for your resources (e.g. include your initials or firstname/lastname as prefix or suffix).
 4. Deploy all resources using Terraform, e.g. no deployments or changes via AWS console.
 5. Try using Terraform modules as much as possible, in order to organize your code better.
