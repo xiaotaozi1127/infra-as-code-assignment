@@ -9,7 +9,7 @@ This is a template repo for participants to use to create their assignment solut
 3. Deploy the solution successfully using Github Actions
 4. Update README.md to provide guidance based on your implementation
 
-![Assignment details and diagram](https://github.com/twlabs/infra-as-code-assignment/blob/main/images/assignment.png)
+![Assignment details and diagram](./images/assignment.png)
 
 
 ## Components
@@ -44,6 +44,16 @@ Use “PAY_PER_REQUEST” as the billing mode, to avoid billing of idle resource
 - An S3 bucket serves as a static website, and contains the homepage and error page of your website.
 - Try to deploy S3 bucket using the [S3 public module](https://registry.terraform.io/modules/terraform-aws-modules/s3-bucket/aws/latest) as it gives you an opportunity to experiment with public modules
 - Upload the homepage (index.html) and error-page (error.html) using [S3 Object](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_object) resource. Try using count or for_each to create both objects while avoiding code duplication.
+
+
+## What is API Gateway and Lambda?
+
+If you have not come across these resources before then we recommend watching one or more of these videos.  The last two videos are more specific in how these services interact which directly relates to this assignment.
+
+- [AWS Lambda In Under FIVE Minutes](https://www.youtube.com/watch?v=LqLdeBj7CN4)
+- [What is Amazon API Gateway?](https://www.youtube.com/watch?v=1XcpQHfTOvs)
+- [Create a REST API with API Gateway and Lambda](https://www.youtube.com/watch?v=jgpRAiar2LQ)
+- [Use Amazon API Gateway with AWS Lambda](https://www.youtube.com/watch?v=aH6S_UKxJ-M)
 
 
 ## Implementation Instructions
