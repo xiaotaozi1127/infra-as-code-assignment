@@ -77,6 +77,19 @@ Configure the GitHub Action to create the cloud resources as well destroying the
 12. Update your repositories README making an assumption that it's the first time the person has come across your code therefore you should explain and guide them through how to use it.  Feel free to expand on some of the key decisions you've made in your design.
 
 
+## Least Privilege Principle
+
+Both Lambda functions require an IAM role to be associated with them which have permissions to interact with other AWS services like DynamoDB.  As an infra engineer we should always operate with a security best practice mindset and adhere to the least privilege principle.  For example, we can allocate permissions like the policy statement below however that would be too open (the wildcard * allows everything).  You should be able to restrict what actions are allowed and restrict what resources the actions can be applied to. 
+
+```
+        {
+            "Effect": "Allow",
+            "Action": "dynamodb:*",
+            "Resource": "*"
+        }
+```
+
+
 ## How to Submit your Assignment
 Contact your trainers and ask for their GitHub usernames so you can explicitely grant permission for them to access your repo.
 
