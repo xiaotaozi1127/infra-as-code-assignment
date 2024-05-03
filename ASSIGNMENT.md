@@ -54,16 +54,17 @@ Use “PAY_PER_REQUEST” as the billing mode, to avoid billing of idle resource
 5. Try using Terraform modules as much as possible, in order to organize your code better.
 6. Avoid code duplication, by using modules and iterations (for loops or count) whenever possible.
 7. Ensure in your Terraform output you display the dynamoDB ARN, S3 bucket ARN and the API Gateway URL.
-8. Set up remote state and your GitHub IAM role resources as an initial Terraform deployment using local state.  The GitHub IAM role uses OIDC and should be restricted to your repository and apply least privilege principle with regards to the IAM role permissions neceesary for the GitHub Actions to deploy your solution.  You should understand how IAM Roles and OIDC works with GitHub based on the techniques learned in the last course session.
-9. Setup a github actions workflow to deploy your terraform code which uses the remote state.  A boilerplate github workflow is available in the .github/workflows directory.
+8. We strongly recommend adding CloudWatch log groups to you Lambda as it will really help when troubleshooting any testing of the application.
+9. Set up remote state and your GitHub IAM role resources as an initial Terraform deployment using local state.  The GitHub IAM role uses OIDC and should be restricted to your repository and apply least privilege principle with regards to the IAM role permissions neceesary for the GitHub Actions to deploy your solution.  You should understand how IAM Roles and OIDC works with GitHub based on the techniques learned in the last course session.
+10. Setup a github actions workflow to deploy your terraform code which uses the remote state.  A boilerplate github workflow is available in the .github/workflows directory.
 Configure the GitHub Action to create the cloud resources as well destroying them (you could use the same workflow file or separate ones, extra points for being DRY in your GitHub Actions).  All Terraform related workflows that interact with AWS should assume the same GitHub IAM role created in step 8 above.
-10. Add [extra automated build steps](https://docs.google.com/presentation/d/1468DXJZPzhKKLAlxz6z7zhvYlkNLOaSCHztUYbQNKAI/edit#slide=id.g2c02383fe93_0_0) in the GitHub Actions deployment for the following (include examples of one of the three optionals):
+12. Add [extra automated build steps](https://docs.google.com/presentation/d/1468DXJZPzhKKLAlxz6z7zhvYlkNLOaSCHztUYbQNKAI/edit#slide=id.g2c02383fe93_0_0) in the GitHub Actions deployment for the following (include examples of one of the three optionals):
   - formatting (mandatory)
   - linting (mandatory)
   - security (optional)
   - testing (optional)
   - documentation (optional)
-11. Update your repositories README making an assumption that it's the first time the person has come across your code therefore you should explain and guide them through how to use it.  Feel free to expand on some of the key decisions you've made in your design.
+12. Update your repositories README making an assumption that it's the first time the person has come across your code therefore you should explain and guide them through how to use it.  Feel free to expand on some of the key decisions you've made in your design.
 
 
 ## How to Submit your Assignment
