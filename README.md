@@ -2,4 +2,4 @@
 
 ## Overview
 
-This repo and README is to be updated to based on the [assignment instructions](./ASSIGNMENT.md).
+This README is to be updated in your repo based on the [assignment instructions](./ASSIGNMENT.md).

@@ -50,8 +50,8 @@ Use “PAY_PER_REQUEST” as the billing mode, to avoid billing of idle resource
 
 If you have not come across these resources before then we recommend watching one or more of these videos.  The last two videos are more specific in how these services interact which directly relates to this assignment.
 
-- [AWS Lambda In Under FIVE Minutes](https://www.youtube.com/watch?v=LqLdeBj7CN4)
 - [What is Amazon API Gateway?](https://www.youtube.com/watch?v=1XcpQHfTOvs)
+- [AWS Lambda In Under FIVE Minutes](https://www.youtube.com/watch?v=LqLdeBj7CN4)
 - [Create a REST API with API Gateway and Lambda](https://www.youtube.com/watch?v=jgpRAiar2LQ)
 - [Use Amazon API Gateway with AWS Lambda](https://www.youtube.com/watch?v=aH6S_UKxJ-M)
 
