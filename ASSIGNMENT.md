@@ -11,6 +11,18 @@ This is a template repo for participants to use to create their assignment solut
 
 ![Assignment details and diagram](./images/assignment.png)
 
+So in this IaC course you have been working with AWS VPCs, EC2s, ECS, S3, RDS and DynamoDB but the focus has been to learn Terraform as well as gain some experience with AWS.  As you can see from the diagram above, in this assignment we're going to create a new solution with different AWS services to give you exposure to a serverless architecture.
+
+
+## What is API Gateway and Lambda?
+
+If you have not come across these services before then we recommend watching one or more of these videos.  The last two videos are more specific in how these services interact with each other which directly relates to this assignment.  Obviously these videos use the AWS Console whereas we will be implementing our solution using Terraform.
+
+- [What is Amazon API Gateway?](https://www.youtube.com/watch?v=1XcpQHfTOvs)
+- [AWS Lambda In Under FIVE Minutes](https://www.youtube.com/watch?v=LqLdeBj7CN4)
+- [Create a REST API with API Gateway and Lambda](https://www.youtube.com/watch?v=jgpRAiar2LQ)
+- [Use Amazon API Gateway with AWS Lambda](https://www.youtube.com/watch?v=aH6S_UKxJ-M)
+
 
 ## Components
 
@@ -24,6 +36,7 @@ This is a template repo for participants to use to create their assignment solut
   - Add the correct Lambda permissions to allow API-gateway to invoke its connected Lambda function
 - [Deploy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apigatewayv2_deployment) this API-Gateway with [$default stage](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-stages.html)
 - You will create multiple API integrations, API routes and Lambda permissions to invoke the API, you should avoid code duplication. 
+- There are no extra DNS requirements in this solution as the API Gateway service provides a public URL which can be used to interact with the solution.
 
 
 ### Request-Processing Lambdas
@@ -44,16 +57,6 @@ Use “PAY_PER_REQUEST” as the billing mode, to avoid billing of idle resource
 - An S3 bucket serves as a static website, and contains the homepage and error page of your website.
 - Try to deploy S3 bucket using the [S3 public module](https://registry.terraform.io/modules/terraform-aws-modules/s3-bucket/aws/latest) as it gives you an opportunity to experiment with public modules
 - Upload the homepage (index.html) and error-page (error.html) using [S3 Object](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_object) resource. Try using count or for_each to create both objects while avoiding code duplication.
-
-
-## What is API Gateway and Lambda?
-
-If you have not come across these resources before then we recommend watching one or more of these videos.  The last two videos are more specific in how these services interact which directly relates to this assignment.
-
-- [What is Amazon API Gateway?](https://www.youtube.com/watch?v=1XcpQHfTOvs)
-- [AWS Lambda In Under FIVE Minutes](https://www.youtube.com/watch?v=LqLdeBj7CN4)
-- [Create a REST API with API Gateway and Lambda](https://www.youtube.com/watch?v=jgpRAiar2LQ)
-- [Use Amazon API Gateway with AWS Lambda](https://www.youtube.com/watch?v=aH6S_UKxJ-M)
 
 
 ## Implementation Instructions
