@@ -67,7 +67,7 @@ Use “PAY_PER_REQUEST” as the billing mode, to avoid billing of idle resource
 5. Try using Terraform modules as much as possible, in order to organize your code better.
 6. Avoid code duplication, by using modules and iterations (for loops or count) whenever possible.
 7. Ensure in your Terraform output you display the dynamoDB ARN, S3 bucket ARN and the API Gateway URL.
-8. We strongly recommend adding CloudWatch log groups to you Lambda as it will really help when troubleshooting any testing of the application.
+8. We strongly recommend adding CloudWatch log groups to your Lambda as it will really help when troubleshooting any testing of the application.
 9. Set up remote state and your GitHub IAM role resources as an initial Terraform deployment using local state.  The GitHub IAM role uses OIDC and should be restricted to your repository and apply least privilege principle with regards to the IAM role permissions neceesary for the GitHub Actions to deploy your solution.  You should understand how IAM Roles and OIDC works with GitHub based on the techniques learned in the last course session.
 10. Setup a github actions workflow to deploy your terraform code which uses the remote state.  A boilerplate github workflow is available in the .github/workflows directory.
 Configure the GitHub Action to create the cloud resources as well destroying them (you could use the same workflow file or separate ones, extra points for being DRY in your GitHub Actions).  All Terraform related workflows that interact with AWS should assume the same GitHub IAM role created in step 8 above.
