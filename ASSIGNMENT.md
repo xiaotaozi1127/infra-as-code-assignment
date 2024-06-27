@@ -4,7 +4,7 @@
 
 This is a template repo for participants to use to create their assignment solution for the IaC course.  It requires the following steps:
 
-1. Create a new private repo based on a clone of this repo
+1. Create a new private repo in your personal GitHub account based on a clone of this repo
 2. Refactor and implement terraform code in line with the requirements below
 3. Deploy the solution successfully using Github Actions
 4. Update README.md to provide guidance based on your implementation
