@@ -94,7 +94,7 @@ Both Lambda functions require an IAM role to be associated with them which have 
 
 
 ## How to Submit your Assignment
-Contact your trainers and ask for their GitHub usernames so you can explicitely grant permission for them to access your repo.
+Contact your trainers and ask for their GitHub usernames, so you can explicitely grant permission for them to access your repo. In addition, please also grant Academy members the permission to access your assignment repo (GitHub usernames: slehong, loriking).
 
 
 ## Shared Responsibility
