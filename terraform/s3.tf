@@ -1,5 +1,5 @@
 module "s3_bucket" {
   source = "terraform-aws-modules/s3-bucket/aws"
-
-  bucket = var.website_bucket_name
+  version = "4.1.2"
+  bucket = "${var.prefix}_website_bucket"
 }
