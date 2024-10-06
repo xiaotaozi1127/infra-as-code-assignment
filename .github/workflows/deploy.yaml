@@ -28,6 +28,13 @@ jobs:
       - name: Terraform format
         run: terraform fmt --recursive
 
+      - name: Install TFLint
+        run: |
+          curl -L "https://github.com/terraform-linters/tflint/releases/latest/download/tflint_linux_amd64.zip" -o tflint.zip
+          unzip tflint.zip
+          sudo mv tflint /usr/local/bin/
+          rm tflint.zip
+
       - name: Terraform lint
         run: tflint --recursive
 
