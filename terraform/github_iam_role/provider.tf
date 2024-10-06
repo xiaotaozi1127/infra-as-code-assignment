@@ -9,6 +9,6 @@ terraform {
 }
 
 provider "aws" {
-  region = var.region
+  region  = var.region
   profile = "160071257600_PowerUserPlusRole"
 }

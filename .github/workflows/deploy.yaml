@@ -2,7 +2,7 @@ name: "Deploy Infrastructure"
 on:
   workflow_dispatch:
   push:
-    branches: 
+    branches:
     - main
 
 permissions:
@@ -24,5 +24,11 @@ jobs:
 
       - name: Terraform Setup
         uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform format
+        run: terraform fmt --recursive
+
+      - name: Terraform lint
+        run: tflint --recursive
 
       # Add steps to deploy your terraform code here
