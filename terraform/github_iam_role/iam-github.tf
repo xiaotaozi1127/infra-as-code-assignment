@@ -68,7 +68,8 @@ resource "aws_iam_policy" "iam" {
         "Effect" : "Allow",
         "Action" : [
           "dynamodb:PutItem",
-          "dynamodb:GetItem"
+          "dynamodb:GetItem",
+          "dynamodb:DeleteItem"
         ],
         "Resource" : "arn:aws:dynamodb:ap-southeast-2:160071257600:table/tw-infra-tfstate-locks-taohui"
       }
