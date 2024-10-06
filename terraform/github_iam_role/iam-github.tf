@@ -56,6 +56,8 @@ resource "aws_iam_policy" "iam" {
       {
         "Effect" : "Allow",
         "Action" : [
+          "s3:GetObject",
+          "s3:PutObject",
           "s3:ListBucket"
         ],
         "Resource" : [
@@ -65,27 +67,9 @@ resource "aws_iam_policy" "iam" {
       {
         "Effect" : "Allow",
         "Action" : [
-          "s3:GetObject",
-          "s3:PutObject",
-          "s3:DeleteObject"
+          "dynamodb:PutItem",
+          "dynamodb:GetItem"
         ],
-        "Resource" : [
-          "arn:aws:s3:::tw-infra-taohui-tfstate/*"
-        ]
-      },
-      {
-        "Effect" : "Allow",
-        "Action" : "dynamodb:PutItem",
-        "Resource" : "arn:aws:dynamodb:ap-southeast-2:160071257600:table/tw-infra-tfstate-locks-taohui"
-      },
-      {
-        "Effect" : "Allow",
-        "Action" : "dynamodb:GetItem",
-        "Resource" : "arn:aws:dynamodb:ap-southeast-2:160071257600:table/tw-infra-tfstate-locks-taohui"
-      },
-      {
-        "Effect" : "Allow",
-        "Action" : "dynamodb:DeleteItem",
         "Resource" : "arn:aws:dynamodb:ap-southeast-2:160071257600:table/tw-infra-tfstate-locks-taohui"
       }
     ]
