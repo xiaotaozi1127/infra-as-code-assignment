@@ -2,7 +2,7 @@
 
 ## AWS Beach Account Access
 
-This README is provides details on how to access the TW AWS Beach account via the AWS Console (UI) and the AWS CLI. 
+This README provides details on how to access the TW AWS Beach account via the AWS Console (UI) and the AWS CLI. 
 
 
 #### AWS Console Access
