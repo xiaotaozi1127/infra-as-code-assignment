@@ -14,7 +14,7 @@ output "website_bucket_name" {
 }
 
 resource "aws_s3_object" "webpages" {
-  bucket = module.s3_bucket.s3_bucket_arn
+  bucket = format("%s-website-bucket", var.prefix)
   count  = length(var.webpages)
 
   key    = var.webpages[count.index].name
