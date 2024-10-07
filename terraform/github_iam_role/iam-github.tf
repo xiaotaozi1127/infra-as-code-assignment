@@ -58,7 +58,8 @@ resource "aws_iam_policy" "iam" {
         "Action" : [
           "s3:GetObject",
           "s3:PutObject",
-          "s3:ListBucket"
+          "s3:ListBucket",
+          "s3:DeleteObject"
         ],
         "Resource" : [
           "arn:aws:s3:::tw-infra-taohui-tfstate"
