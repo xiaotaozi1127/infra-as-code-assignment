@@ -127,8 +127,8 @@ resource "aws_iam_policy" "iam" {
         "Resource" : "arn:aws:dynamodb:ap-southeast-2:160071257600:table/tw-iac-demo-tfstate-locks-taohui"
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "lambda:CreateFunction",
           "lambda:GetFunction",
           "lambda:ListVersionsByFunction",
@@ -137,7 +137,7 @@ resource "aws_iam_policy" "iam" {
           "lambda:UpdateFunctionConfiguration",
           "lambda:UpdateFunctionCode"
         ],
-        "Resource": "*"
+        "Resource" : "*"
       }
     ]
   })

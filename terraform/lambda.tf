@@ -2,7 +2,7 @@ resource "aws_lambda_function" "functions" {
   count = length(var.functions)
 
   function_name = var.functions[count.index].name
-  runtime = "python3.10"
+  runtime       = "python3.10"
   # The handler name in AWS Lambda should be specified in the format: <filename>.<function_name>
   handler = format("%s.lambda_handler", var.functions[count.index].name)
 
@@ -39,7 +39,28 @@ resource "aws_iam_role" "lambda_exec" {
   })
 }
 
+resource "aws_iam_policy" "dynamodb_manage_item" {
+  name        = "DynamoDBManageItemPolicy"
+  description = "Policy to allow DynamoDB Manage Item"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = "dynamodb:PutItem"
+        Resource = aws_dynamodb_table.user-info-table.arn
+      }
+    ]
+  })
+}
+
 resource "aws_iam_role_policy_attachment" "lambda_policy" {
   role       = aws_iam_role.lambda_exec.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+resource "aws_iam_role_policy_attachment" "dynamodb_policy" {
+  role       = aws_iam_role.lambda_exec.name
+  policy_arn = aws_iam_policy.dynamodb_manage_item.arn
 }
