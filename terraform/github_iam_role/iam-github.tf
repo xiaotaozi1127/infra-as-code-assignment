@@ -1,9 +1,9 @@
 locals {
-  gihub_oidc_already_exists = false
+  gihub_oidc_already_exists = true
 }
 resource "aws_iam_openid_connect_provider" "default" {
-  count = local.gihub_oidc_already_exists ? 0 : 1
-  url   = "https://token.actions.githubusercontent.com"
+  count                       = local.gihub_oidc_already_exists ? 0 : 1
+  url = "https://token.actions.githubusercontent.com"
   client_id_list = [
     "sts.amazonaws.com",
   ]
@@ -46,44 +46,94 @@ resource "aws_iam_policy" "iam" {
       {
         "Effect" : "Allow",
         "Action" : [
+          "ec2:*Instance*",
+          "ec2:CreateVpc",
+          "ec2:DeleteVpc",
+          "ec2:DescribeVpcs",
+          "ec2:DescribeVpcAttribute",
+          "ec2:ModifyVpcAttribute",
+          "ec2:AllocateAddress",
+          "ec2:DescribeAddresses",
+          "ec2:ReleaseAddress",
+          "ec2:CreateTags",
+          "ec2:DescribeAvailabilityZones",
+          "ec2:DescribeImages",
+          "ec2:CreateInternetGateway",
+          "ec2:CreateSubnet",
+          "ec2:CreateSecurityGroup",
+          "ec2:*",
+          "elasticloadbalancing:DescribeTargetGroups",
+          "elasticloadbalancing:CreateTargetGroup",
+          "elasticloadbalancing:DescribeLoadBalancers",
+          "elasticloadbalancing:CreateLoadBalancer",
+          "elasticloadbalancing:AddTags",
+          "elasticloadbalancing:*",
+          "ssm:PutParameter",
+          "ssm:GetParameter",
+          "ssm:DeleteParameter",
+          "ssm:GetParameters",
+          "ssm:ListTagsForResource",
+          "ssm:DescribeParameters",
+          "ssm:CreateAssociation",
+          "ssm:*",
+          "logs:CreateLogGroup",
           "logs:*",
+          "cloudwatch:PutMetricAlarm",
           "cloudwatch:*",
+          "iam:GetRole",
+          "iam:PassRole",
+          "iam:CreateRole",
+          "iam:AttachRolePolicy",
+          "iam:ListRolePolicies",
           "iam:*",
+          "autoscaling:CreateAutoScalingGroup",
           "autoscaling:*"
+          # Likely to need more or different permissions for successful deployment
+          # but you want to try to use least privilege principle where possible
         ],
         "Resource" : "*"
       },
       {
-        "Effect" : "Allow",
-        "Action" : [
-          "s3:GetObject",
-          "s3:PutObject",
-          "s3:ListBucket",
-          "s3:DeleteObject"
+        "Effect": "Allow",
+        "Action": [
+          "s3:ListBucket"
         ],
-        "Resource" : [
-          "arn:aws:s3:::tw-infra-taohui-tfstate"
+        "Resource": [
+          "arn:aws:s3:::tw-iac-demo-taohui-tfstate"
         ]
       },
       {
-        "Effect" : "Allow",
-        "Action" : [
-          "dynamodb:PutItem",
-          "dynamodb:GetItem",
-          "dynamodb:DeleteItem"
+        "Effect": "Allow",
+        "Action": [
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:DeleteObject"
         ],
-        "Resource" : "arn:aws:dynamodb:ap-southeast-2:160071257600:table/tw-infra-tfstate-locks-taohui"
+        "Resource": [
+          "arn:aws:s3:::tw-iac-demo-taohui-tfstate/*"
+        ]
+      },
+      {
+        "Effect": "Allow",
+        "Action": "dynamodb:PutItem",
+        "Resource": "arn:aws:dynamodb:ap-southeast-2:160071257600:table/tw-iac-demo-tfstate-locks-taohui"
+      },
+      {
+        "Effect": "Allow",
+        "Action": "dynamodb:GetItem",
+        "Resource": "arn:aws:dynamodb:ap-southeast-2:160071257600:table/tw-iac-demo-tfstate-locks-taohui"
+      },
+      {
+        "Effect": "Allow",
+        "Action": "dynamodb:DeleteItem",
+        "Resource": "arn:aws:dynamodb:ap-southeast-2:160071257600:table/tw-iac-demo-tfstate-locks-taohui"
       }
     ]
   })
 }
 
 resource "aws_iam_policy_attachment" "role_policy_attachment" {
-  name       = "Policy Attachment"
+  name       = "Policy Attachement"
   policy_arn = aws_iam_policy.iam.arn
   roles      = [aws_iam_role.github_actions_role.name]
-}
-
-output "role_arn" {
-  value = aws_iam_role.github_actions_role.arn
 }
