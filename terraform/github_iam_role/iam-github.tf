@@ -96,7 +96,8 @@ resource "aws_iam_policy" "iam" {
       {
         "Effect": "Allow",
         "Action": [
-          "s3:ListBucket"
+          "s3:ListBucket",
+          "s3:ListAllMyBuckets"
         ],
         "Resource": [
           "arn:aws:s3:::tw-iac-demo-taohui-tfstate"
