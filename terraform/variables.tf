@@ -7,3 +7,7 @@ variable "region" {
   type        = string
   description = "Region to deploy the solution"
 }
+
+variable "webpages" {
+  type = list(any)
+}

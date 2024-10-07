@@ -1,7 +1,7 @@
 module "s3_bucket" {
   source = "terraform-aws-modules/s3-bucket/aws"
   version = "4.1.2"
-  bucket = format("%s-website_bucket", var.prefix)
+  bucket = format("%s-website-bucket", var.prefix)
   acl    = "private"
 
   control_object_ownership = true
@@ -13,14 +13,10 @@ output "website_bucket_name" {
   value = module.s3_bucket.s3_bucket_arn
 }
 
-resource "aws_s3_object" "index_html" {
+resource "aws_s3_object" "webpages" {
   bucket = module.s3_bucket.s3_bucket_arn
-  key    = "index.html"  # The name of the object in the S3 bucket
-  source = "index.html"  # Path to the local file you want to upload
-}
+  count  = length(var.webpages)
 
-resource "aws_s3_object" "error_html" {
-  bucket = module.s3_bucket.s3_bucket_arn
-  key    = "error.html"  # The name of the object in the S3 bucket
-  source = "error.html"  # Path to the local file you want to upload
+  key    = var.webpages[count.index].name
+  source = var.webpages[count.index].name
 }
