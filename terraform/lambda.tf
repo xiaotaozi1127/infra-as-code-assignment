@@ -6,7 +6,7 @@ resource "aws_lambda_function" "functions" {
   s3_bucket = module.s3_bucket.s3_bucket_id
   s3_key    = var.functions[count.index].name
 
-  runtime = "Python 3.10"
+  runtime = "python3.10"
   handler = "lambda_handler"
 
   # Define environment variables
