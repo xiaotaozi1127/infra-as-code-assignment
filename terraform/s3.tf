@@ -1,7 +1,7 @@
 module "s3_bucket" {
   source = "terraform-aws-modules/s3-bucket/aws"
   version = "4.1.2"
-  bucket = "tw-infra-taohui_website_bucket"
+  bucket = format("%s-website_bucket", var.prefix)
   acl    = "private"
 
   control_object_ownership = true
