@@ -2,10 +2,6 @@ resource "aws_lambda_function" "functions" {
   count = length(var.functions)
 
   function_name = var.functions[count.index].name
-
-  s3_bucket = module.s3_bucket.s3_bucket_id
-  s3_key    = var.functions[count.index].name
-
   runtime = "python3.10"
   handler = "lambda_handler"
 
