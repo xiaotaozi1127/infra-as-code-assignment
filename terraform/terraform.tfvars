@@ -8,3 +8,11 @@ webpages = [
     name = "error.html"
   }
 ]
+functions = [
+  {
+    name = "register_user",
+  },
+  {
+    name = "verify_user",
+  }
+]

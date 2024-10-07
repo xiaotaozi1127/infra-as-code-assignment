@@ -119,17 +119,11 @@ resource "aws_iam_policy" "iam" {
       },
       {
         "Effect": "Allow",
-        "Action": "dynamodb:PutItem",
-        "Resource": "arn:aws:dynamodb:ap-southeast-2:160071257600:table/tw-iac-demo-tfstate-locks-taohui"
-      },
-      {
-        "Effect": "Allow",
-        "Action": "dynamodb:GetItem",
-        "Resource": "arn:aws:dynamodb:ap-southeast-2:160071257600:table/tw-iac-demo-tfstate-locks-taohui"
-      },
-      {
-        "Effect": "Allow",
-        "Action": "dynamodb:DeleteItem",
+        "Action": [
+          "dynamodb:PutItem",
+          "dynamodb:GetItem",
+          "dynamodb:DeleteItem"
+        ]
         "Resource": "arn:aws:dynamodb:ap-southeast-2:160071257600:table/tw-iac-demo-tfstate-locks-taohui"
       }
     ]

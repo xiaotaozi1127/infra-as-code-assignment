@@ -9,8 +9,8 @@ module "s3_bucket" {
 }
 
 # Reference the outputs from the module
-output "website_bucket_name" {
-  value = module.s3_bucket.s3_bucket_arn
+output "website_bucket_id" {
+  value = module.s3_bucket.s3_bucket_id
 }
 
 resource "aws_s3_object" "webpages" {

@@ -6,6 +6,12 @@ from urllib.parse import parse_qsl
 def lambda_handler(event, context):
     s3_client = boto3.client("s3")
     try:
+        # rawQueryString contains the raw query string from the HTTP request.
+        # "queryStringParameters": {
+        #     "param1": "value1",
+        #     "param2": "value2"
+        #   },
+        #   "rawQueryString": "param1=value1&param2=value2",
         query_string = dict(parse_qsl(event["rawQueryString"]))
         item_found = is_key_in_db(db_key=query_string)
         result_file = "index.html" if item_found else "error.html"

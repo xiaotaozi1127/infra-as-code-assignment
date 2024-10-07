@@ -11,3 +11,6 @@ variable "region" {
 variable "webpages" {
   type = list(any)
 }
+variable "functions" {
+  type = list(any)
+}
