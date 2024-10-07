@@ -112,6 +112,20 @@ resource "aws_iam_policy" "iam" {
       {
         "Effect": "Allow",
         "Action": [
+          "s3:CreateBucket"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Effect": "Allow",
+        "Action": [
+          "s3:HeadBucket"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Effect": "Allow",
+        "Action": [
           "s3:GetObject",
           "s3:PutObject",
           "s3:DeleteObject"

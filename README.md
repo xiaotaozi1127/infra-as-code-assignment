@@ -1,6 +1,11 @@
 # Infra as Code - Assignment for IaC Course
 
 ## Overview
+It provides api gateway to register and verify users. The api gateway is integrated with lambda function to handle the requests. The lambda function is written in python and it uses dynamodb to store the user data.
+
+### Architecture
+![Architecture](./images/assignment.png)
+
 
 ### Pre-requisites
 - create s3 bucket for terraform state: tw-infra-taohui-tfstate
