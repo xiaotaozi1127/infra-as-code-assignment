@@ -3,7 +3,8 @@ resource "aws_lambda_function" "functions" {
 
   function_name = var.functions[count.index].name
   runtime = "python3.10"
-  handler = "lambda_handler"
+  # The handler name in AWS Lambda should be specified in the format: <filename>.<function_name>
+  handler = format("%s.lambda_handler", var.functions[count.index].name)
 
   # Define environment variables
   environment {
