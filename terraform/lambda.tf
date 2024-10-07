@@ -17,9 +17,9 @@ resource "aws_lambda_function" "functions" {
     }
   }
   # Path to the pre-created ZIP file
-  filename = format("%s.zip", var.functions[count.index].name)
+  filename = format("../%s.zip", var.functions[count.index].name)
 
-  source_code_hash = filebase64sha256(format("%s.zip", var.functions[count.index].name))
+  source_code_hash = filebase64sha256(format("../%s.zip", var.functions[count.index].name))
   role             = aws_iam_role.lambda_exec.arn
 }
 
