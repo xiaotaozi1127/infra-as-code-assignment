@@ -79,7 +79,7 @@ resource "aws_iam_policy" "iam" {
       {
         "Effect": "Allow",
         "Action": [
-          "s3:HeadBucket"
+          "s3:*"
         ],
         "Resource": "arn:aws:s3:::tw-infra-taohui-website-bucket"
       },
