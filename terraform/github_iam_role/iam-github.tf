@@ -96,12 +96,18 @@ resource "aws_iam_policy" "iam" {
       {
         "Effect": "Allow",
         "Action": [
-          "s3:ListBucket",
-          "s3:ListAllMyBuckets"
+          "s3:ListBucket"
         ],
         "Resource": [
           "arn:aws:s3:::tw-iac-demo-taohui-tfstate"
         ]
+      },
+      {
+        "Effect": "Allow",
+        "Action": [
+          "s3:ListAllMyBuckets"
+        ],
+        "Resource": "*"
       },
       {
         "Effect": "Allow",
