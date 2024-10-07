@@ -46,50 +46,10 @@ resource "aws_iam_policy" "iam" {
       {
         "Effect" : "Allow",
         "Action" : [
-          "ec2:*Instance*",
-          "ec2:CreateVpc",
-          "ec2:DeleteVpc",
-          "ec2:DescribeVpcs",
-          "ec2:DescribeVpcAttribute",
-          "ec2:ModifyVpcAttribute",
-          "ec2:AllocateAddress",
-          "ec2:DescribeAddresses",
-          "ec2:ReleaseAddress",
-          "ec2:CreateTags",
-          "ec2:DescribeAvailabilityZones",
-          "ec2:DescribeImages",
-          "ec2:CreateInternetGateway",
-          "ec2:CreateSubnet",
-          "ec2:CreateSecurityGroup",
-          "ec2:*",
-          "elasticloadbalancing:DescribeTargetGroups",
-          "elasticloadbalancing:CreateTargetGroup",
-          "elasticloadbalancing:DescribeLoadBalancers",
-          "elasticloadbalancing:CreateLoadBalancer",
-          "elasticloadbalancing:AddTags",
-          "elasticloadbalancing:*",
-          "ssm:PutParameter",
-          "ssm:GetParameter",
-          "ssm:DeleteParameter",
-          "ssm:GetParameters",
-          "ssm:ListTagsForResource",
-          "ssm:DescribeParameters",
-          "ssm:CreateAssociation",
           "ssm:*",
-          "logs:CreateLogGroup",
           "logs:*",
-          "cloudwatch:PutMetricAlarm",
           "cloudwatch:*",
-          "iam:GetRole",
-          "iam:PassRole",
-          "iam:CreateRole",
-          "iam:AttachRolePolicy",
-          "iam:ListRolePolicies",
-          "iam:*",
-          "autoscaling:CreateAutoScalingGroup",
-          "autoscaling:*"
-          # Likely to need more or different permissions for successful deployment
-          # but you want to try to use least privilege principle where possible
+          "iam:*"
         ],
         "Resource" : "*"
       },
@@ -121,7 +81,7 @@ resource "aws_iam_policy" "iam" {
         "Action": [
           "s3:HeadBucket"
         ],
-        "Resource": "*"
+        "Resource": "arn:aws:s3:::tw-infra-taohui-website-bucket"
       },
       {
         "Effect": "Allow",
