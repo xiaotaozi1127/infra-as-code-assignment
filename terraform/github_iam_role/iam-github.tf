@@ -86,12 +86,21 @@ resource "aws_iam_policy" "iam" {
       {
         "Effect": "Allow",
         "Action": [
+          "s3:*"
+        ],
+        "Resource": [
+          "arn:aws:s3:::tw-infra-taohui-website-bucket/*"
+        ]
+      },
+      {
+        "Effect": "Allow",
+        "Action": [
           "s3:GetObject",
           "s3:PutObject",
           "s3:DeleteObject"
         ],
         "Resource": [
-          "arn:aws:s3:::tw-iac-demo-taohui-tfstate/*"
+          "arn:aws:s3:::tw-iac-demo-taohui-tfstate/*",
         ]
       },
       {
