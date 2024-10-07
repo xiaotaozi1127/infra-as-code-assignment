@@ -10,9 +10,11 @@ resource "aws_lambda_function" "functions" {
   handler = "lambda_handler"
 
   # Define environment variables
-  environment = {
-    WEBSITE_S3    = format("%s-website-bucket", var.prefix)
-    DB_TABLE_NAME = format("%s-user-info-table", var.prefix)
+  environment {
+    variables = {
+      WEBSITE_S3    = format("%s-website-bucket", var.prefix)
+      DB_TABLE_NAME = format("%s-user-info-table", var.prefix)
+    }
   }
   # Path to the pre-created ZIP file
   filename = format("%s.zip", var.functions[count.index].name)
