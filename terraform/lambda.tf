@@ -14,6 +14,8 @@ resource "aws_lambda_function" "functions" {
     }
   }
   # Path to the pre-created ZIP file
+  # Make sure your ZIP file is structured correctly.
+  # The handler file must be at the root level of the ZIP file, not nested within another directory.
   filename = format("../%s.zip", var.functions[count.index].name)
 
   source_code_hash = filebase64sha256(format("../%s.zip", var.functions[count.index].name))

@@ -12,6 +12,7 @@ def lambda_handler(event, context):
         #     "param2": "value2"
         #   },
         #   "rawQueryString": "param1=value1&param2=value2",
+        print("rawQueryString for verify user handler: ", event["rawQueryString"])
         query_string = dict(parse_qsl(event["rawQueryString"]))
         item_found = is_key_in_db(db_key=query_string)
         result_file = "index.html" if item_found else "error.html"

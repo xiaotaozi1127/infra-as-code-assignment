@@ -133,7 +133,9 @@ resource "aws_iam_policy" "iam" {
           "lambda:GetFunction",
           "lambda:ListVersionsByFunction",
           "lambda:GetFunctionCodeSigningConfig",
-          "lambda:DeleteFunction"
+          "lambda:DeleteFunction",
+          "lambda:UpdateFunctionConfiguration",
+          "lambda:UpdateFunctionCode"
         ],
         "Resource": "*"
       }

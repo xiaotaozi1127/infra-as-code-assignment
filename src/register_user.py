@@ -7,6 +7,7 @@ def lambda_handler(event, context):
     # parse_qsl is used to parse a query string into a list of key-value pairs
     # query_string = "param1=value1&param2=value2&param3=value3"
     # [('param1', 'value1'), ('param2', 'value2'), ('param3', 'value3')]
+    print("rawQueryString for register user handler: ", event["rawQueryString"])
     query_string = dict(parse_qsl(event["rawQueryString"]))
     client = boto3.resource("dynamodb")
     db_table = client.Table(getenv("DB_TABLE_NAME"))
