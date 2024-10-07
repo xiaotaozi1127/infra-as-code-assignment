@@ -2,8 +2,8 @@ locals {
   gihub_oidc_already_exists = true
 }
 resource "aws_iam_openid_connect_provider" "default" {
-  count                       = local.gihub_oidc_already_exists ? 0 : 1
-  url = "https://token.actions.githubusercontent.com"
+  count = local.gihub_oidc_already_exists ? 0 : 1
+  url   = "https://token.actions.githubusercontent.com"
   client_id_list = [
     "sts.amazonaws.com",
   ]
@@ -54,77 +54,77 @@ resource "aws_iam_policy" "iam" {
         "Resource" : "*"
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "s3:ListBucket"
         ],
-        "Resource": [
+        "Resource" : [
           "arn:aws:s3:::tw-iac-demo-taohui-tfstate"
         ]
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "s3:ListAllMyBuckets"
         ],
-        "Resource": "*"
+        "Resource" : "*"
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "s3:CreateBucket"
         ],
-        "Resource": "*"
+        "Resource" : "*"
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "s3:*"
         ],
-        "Resource": "arn:aws:s3:::tw-infra-taohui-website-bucket"
+        "Resource" : "arn:aws:s3:::tw-infra-taohui-website-bucket"
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "s3:*"
         ],
-        "Resource": [
+        "Resource" : [
           "arn:aws:s3:::tw-infra-taohui-website-bucket/*"
         ]
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "s3:GetObject",
           "s3:PutObject",
           "s3:DeleteObject"
         ],
-        "Resource": [
+        "Resource" : [
           "arn:aws:s3:::tw-iac-demo-taohui-tfstate/*",
         ]
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "dynamodb:CreateTable"
         ],
-        "Resource": "*"
+        "Resource" : "*"
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "dynamodb:*"
         ],
-        "Resource": "arn:aws:dynamodb:ap-southeast-2:160071257600:table/tw-infra-taohui-user-info-table",
+        "Resource" : "arn:aws:dynamodb:ap-southeast-2:160071257600:table/tw-infra-taohui-user-info-table",
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "dynamodb:PutItem",
           "dynamodb:GetItem",
           "dynamodb:DeleteItem"
         ]
-        "Resource": "arn:aws:dynamodb:ap-southeast-2:160071257600:table/tw-iac-demo-tfstate-locks-taohui"
+        "Resource" : "arn:aws:dynamodb:ap-southeast-2:160071257600:table/tw-iac-demo-tfstate-locks-taohui"
       }
     ]
   })

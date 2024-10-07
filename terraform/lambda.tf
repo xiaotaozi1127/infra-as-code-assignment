@@ -10,16 +10,15 @@ resource "aws_lambda_function" "functions" {
   handler = "lambda_handler"
 
   # Define environment variables
-  environment {
-    WEBSITE_S3 = format("%s-website-bucket", var.prefix)
+  environment = {
+    WEBSITE_S3    = format("%s-website-bucket", var.prefix)
     DB_TABLE_NAME = format("%s-user-info-table", var.prefix)
   }
-
   # Path to the pre-created ZIP file
-  filename      = format("%s.zip", var.functions[count.index].name)
+  filename = format("%s.zip", var.functions[count.index].name)
 
   source_code_hash = filebase64sha256(format("%s.zip", var.functions[count.index].name))
-  role = aws_iam_role.lambda_exec.arn
+  role             = aws_iam_role.lambda_exec.arn
 }
 
 resource "aws_iam_role" "lambda_exec" {
@@ -34,7 +33,7 @@ resource "aws_iam_role" "lambda_exec" {
       Principal = {
         Service = "lambda.amazonaws.com"
       }
-    }
+      }
     ]
   })
 }

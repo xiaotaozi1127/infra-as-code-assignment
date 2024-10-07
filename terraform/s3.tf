@@ -1,8 +1,8 @@
 module "s3_bucket" {
-  source = "terraform-aws-modules/s3-bucket/aws"
+  source  = "terraform-aws-modules/s3-bucket/aws"
   version = "4.1.2"
-  bucket = format("%s-website-bucket", var.prefix)
-  acl    = "private"
+  bucket  = format("%s-website-bucket", var.prefix)
+  acl     = "private"
 
   control_object_ownership = true
   object_ownership         = "ObjectWriter"
