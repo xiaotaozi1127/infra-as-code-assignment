@@ -71,7 +71,7 @@ resource "aws_iam_policy" "website_bucket_permission" {
         Action = [
           "s3:GetObject",
         ]
-        Resource = module.s3_bucket.s3_bucket_arn
+        Resource = "${module.s3_bucket.s3_bucket_arn}/*"
       }
     ]
   })
