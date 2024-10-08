@@ -12,7 +12,7 @@ def lambda_handler(event, context):
         #     "param2": "value2"
         #   }
         print("queryStringParameters for verify user handler: ", event["queryStringParameters"])
-        query_string = dict(parse_qsl(event["queryStringParameters"]))
+        query_string = event["queryStringParameters"]
         item_found = is_key_in_db(db_key=query_string)
         result_file = "index.html" if item_found else "error.html"
         print("S3 verify user result file: ", result_file)
@@ -30,6 +30,7 @@ def lambda_handler(event, context):
 
 
 def is_key_in_db(db_key):
+    print(f"Checking if key: {db_key} exists in the dynamodb table")
     db_client = boto3.resource("dynamodb")
     db_table = db_client.Table(getenv("DB_TABLE_NAME"))
     try:
