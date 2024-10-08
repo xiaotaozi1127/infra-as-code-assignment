@@ -9,7 +9,7 @@ It provides api gateway to register and verify users. The api gateway is integra
 
 ### Pre-requisites
 - create s3 bucket for terraform state: tw-infra-taohui-tfstate
-- create dynamodb table for terraform state lock: tw-infra-tfstate-locks-taohui
+- create dynamodb table for terraform state lock: tw-infra-taohui-tfstate-locks
 
 ### Generate zip file for lambda function
 When we configure the terraform for lambda function, we need to provide the zip file for the lambda function. 
