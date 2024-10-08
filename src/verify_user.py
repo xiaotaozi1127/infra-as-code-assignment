@@ -15,7 +15,9 @@ def lambda_handler(event, context):
         query_string = dict(parse_qsl(event["queryStringParameters"]))
         item_found = is_key_in_db(db_key=query_string)
         result_file = "index.html" if item_found else "error.html"
+        print("S3 verify user result file: ", result_file)
         response = s3_client.get_object(Bucket=getenv("WEBSITE_S3"), Key=result_file)
+        print("S3 response for verify user result file: ", response)
         html_body = response["Body"].read().decode("utf-8")
         return {
             "statusCode": 200,
