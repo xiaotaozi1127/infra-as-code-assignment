@@ -32,12 +32,14 @@ def is_key_in_db(db_key):
     db_table = db_client.Table(getenv("DB_TABLE_NAME"))
     try:
         response = db_table.get_item(Key=db_key)
-        if "Item" not in response:
-            print(f"Item with key: {db_key} not found")
-            return False
-        else:
+        print(f"Dynamodb response when get item {db_key}: {response}")
+        item = response.get("Item")
+        if item:
             print(f"Item with key: {db_key} found")
             return True
+        else:
+            print(f"Item with key: {db_key} not found")
+            return False
     except Exception as err:
         print(f"Error Getting Item: {err}")
         return False
