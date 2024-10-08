@@ -1,7 +1,8 @@
 resource "aws_lambda_function" "functions" {
   count = length(var.functions)
 
-  function_name = var.functions[count.index].name
+  function_name = format("%s_%s", var.prefix, var.functions[count.index].name)
+  timeout       = 30  # Set the timeout to 30 seconds
   runtime       = "python3.10"
   # The handler name in AWS Lambda should be specified in the format: <filename>.<function_name>
   handler = format("%s.lambda_handler", var.functions[count.index].name)
@@ -48,7 +49,10 @@ resource "aws_iam_policy" "dynamodb_manage_item" {
     Statement = [
       {
         Effect = "Allow"
-        Action = "dynamodb:PutItem"
+        Action = [
+          "dynamodb:PutItem",
+          "dynamodb:GetItem",
+        ]
         Resource = aws_dynamodb_table.user-info-table.arn
       }
     ]
