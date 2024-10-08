@@ -42,7 +42,7 @@ resource "aws_iam_role" "lambda_exec" {
 
 resource "aws_iam_policy" "dynamodb_manage_item" {
   name        = "DynamoDBManageItemPolicy"
-  description = "Policy to allow DynamoDB Manage Item"
+  description = "Policy to allow DynamoDB access"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -59,6 +59,24 @@ resource "aws_iam_policy" "dynamodb_manage_item" {
   })
 }
 
+resource "aws_iam_policy" "website_bucket_permission" {
+  name        = "WebsiteBucketPolicy"
+  description = "Policy to allow S3 bucket access"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:GetObject",
+        ]
+        Resource = module.s3_bucket.s3_bucket_arn
+      }
+    ]
+  })
+}
+
 resource "aws_iam_role_policy_attachment" "lambda_policy" {
   role       = aws_iam_role.lambda_exec.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
@@ -67,4 +85,9 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
 resource "aws_iam_role_policy_attachment" "dynamodb_policy" {
   role       = aws_iam_role.lambda_exec.name
   policy_arn = aws_iam_policy.dynamodb_manage_item.arn
+}
+
+resource "aws_iam_role_policy_attachment" "s3_policy" {
+  role       = aws_iam_role.lambda_exec.name
+  policy_arn = aws_iam_policy.website_bucket_permission.arn
 }

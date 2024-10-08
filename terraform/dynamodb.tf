@@ -8,3 +8,7 @@ resource "aws_dynamodb_table" "user-info-table" {
     type = "S"
   }
 }
+
+output "dynamodb_table_id" {
+  value = aws_dynamodb_table.user-info-table.id
+}
