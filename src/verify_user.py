@@ -10,9 +10,8 @@ def lambda_handler(event, context):
         # "queryStringParameters": {
         #     "param1": "value1",
         #     "param2": "value2"
-        #   },
-        #   "rawQueryString": "param1=value1&param2=value2",
-        print("rawQueryString for verify user handler: ", event["queryStringParameters"])
+        #   }
+        print("queryStringParameters for verify user handler: ", event["queryStringParameters"])
         query_string = dict(parse_qsl(event["queryStringParameters"]))
         item_found = is_key_in_db(db_key=query_string)
         result_file = "index.html" if item_found else "error.html"
@@ -36,8 +35,9 @@ def is_key_in_db(db_key):
         if "Item" not in response:
             print(f"Item with key: {db_key} not found")
             return False
+        else:
+            print(f"Item with key: {db_key} found")
+            return True
     except Exception as err:
         print(f"Error Getting Item: {err}")
         return False
-    else:
-        return True
