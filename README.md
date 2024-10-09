@@ -6,6 +6,13 @@ It provides api gateway to register and verify users. The api gateway is integra
 ### Architecture
 ![Architecture](./images/assignment.png)
 
+### Deployment
+In order to deploy the infrastructure with GHA workflow, we need to grant the permission to the GHA workflow. so, we created `tw-infra-taohui-github-actions-role` first.
+please check the `terraform/github_iam_role` for more details. you need to use local backend to manage the state and create the role first.
+
+For other aws resources, which include api-gateway, lambda functions, s3 and dynamodb table, we use remote backend to manage the state. The terraform configuration is stored in the `terraform` directory. 
+GHA workflow is used to deploy the infrastructure.
+
 
 ### Pre-requisites
 - create s3 bucket for terraform state: tw-infra-taohui-tfstate
@@ -23,9 +30,9 @@ mv verify_user.zip ../verify_user.zip
 ```
 
 ### Lambda Proxy Integration
-When you choose Lambda Proxy Integration with AWS API Gateway, it means that API Gateway will pass the entire HTTP request to your Lambda function as a single event object. This integration allows you to handle the entire request and response cycle within your Lambda function, giving you more control over the processing of requests.
+We choose Lambda Proxy Integration with AWS API Gateway, it means that API Gateway will pass the entire HTTP request to our Lambda function as a single event object. This integration allows you to handle the entire request and response cycle within your Lambda function.
 
-Example request for Lambda Proxy Integration:
+If you want to test the lambda functions (register_user and verify_user) manually, you can try below example request:
 ```
 {
     "queryStringParameters":
