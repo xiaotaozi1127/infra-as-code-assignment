@@ -1,8 +1,9 @@
 resource "aws_lambda_function" "functions" {
+  depends_on = [module.s3_bucket, aws_dynamodb_table.user-info-table, aws_iam_role.lambda_exec]
   count = length(var.functions)
 
   function_name = format("%s_%s", var.prefix, var.functions[count.index].name)
-  timeout       = 30  # Set the timeout to 30 seconds
+  timeout       = 30  # Set the timeout to 30 seconds, default value is 3 seconds
   runtime       = "python3.10"
   # The handler name in AWS Lambda should be specified in the format: <filename>.<function_name>
   handler = format("%s.lambda_handler", var.functions[count.index].name)
@@ -78,16 +79,19 @@ resource "aws_iam_policy" "website_bucket_permission" {
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_policy" {
+  depends_on = [aws_iam_role.lambda_exec]
   role       = aws_iam_role.lambda_exec.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
 resource "aws_iam_role_policy_attachment" "dynamodb_policy" {
+  depends_on = [aws_iam_role.lambda_exec]
   role       = aws_iam_role.lambda_exec.name
   policy_arn = aws_iam_policy.dynamodb_manage_item.arn
 }
 
 resource "aws_iam_role_policy_attachment" "s3_policy" {
+  depends_on = [aws_iam_role.lambda_exec]
   role       = aws_iam_role.lambda_exec.name
   policy_arn = aws_iam_policy.website_bucket_permission.arn
 }
