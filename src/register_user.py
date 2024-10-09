@@ -21,7 +21,7 @@ def lambda_handler(event, context):
         #     # Add more attributes as needed
         # }
         db_table.put_item(Item=query_string)
-        print(f"{event["rawQueryString"]} Registered Successfully")
+        print(f"{query_string} Registered Successfully")
         return {"message": "Registered User Successfully"}
     except Exception as error_details:
         print(error_details)
