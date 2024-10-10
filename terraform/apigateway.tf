@@ -1,16 +1,12 @@
 resource "aws_api_gateway_rest_api" "register_user_api" {
   name        = "register-user-api"
   description = "API Gateway for register user function"
-
-  endpoint_configuration {
-    types = ["REGIONAL"]
-  }
 }
 
 resource "aws_api_gateway_resource" "root" {
   rest_api_id = aws_api_gateway_rest_api.register_user_api.id
   parent_id   = aws_api_gateway_rest_api.register_user_api.root_resource_id
-  path_part   = "{proxy+}"  # This enables the proxy integration
+  path_part   = ""  # This represents the root resource path
 }
 
 resource "aws_api_gateway_method" "proxy" {
@@ -52,4 +48,8 @@ resource "aws_api_gateway_deployment" "register_user_api_deployment" {
   depends_on = [aws_api_gateway_integration.lambda_integration]
   rest_api_id = aws_api_gateway_rest_api.register_user_api.id
   stage_name  = "default"
+}
+
+output "api_gateway_register_user_invoke_url" {
+  value = aws_api_gateway_deployment.register_user_api_deployment.invoke_url
 }
