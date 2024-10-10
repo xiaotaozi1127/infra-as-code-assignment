@@ -22,7 +22,7 @@ resource "aws_api_gateway_integration" "lambda_proxy" {
   http_method             = aws_api_gateway_method.proxy.http_method
   integration_http_method = "POST"  # Lambda integration uses POST
   type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.functions[0].invoke_arn
+  uri                     = lambda_function_arns[0]
 }
 
 resource "aws_api_gateway_deployment" "register_user_api_deployment" {
