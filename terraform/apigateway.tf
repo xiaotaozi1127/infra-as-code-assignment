@@ -12,6 +12,18 @@ resource "aws_api_gateway_method" "proxy" {
   authorization = "NONE"
 }
 
+resource "aws_api_gateway_method_settings" "all" {
+  rest_api_id = aws_api_gateway_rest_api.register_user_api.id
+  stage_name  = aws_api_gateway_stage.register_user_api_stage.stage_name
+  method_path = "*/*"
+
+  settings {
+    metrics_enabled = true
+    logging_level   = "INFO"
+    data_trace_enabled = true
+  }
+}
+
 resource "aws_api_gateway_integration" "lambda_integration" {
   rest_api_id             = aws_api_gateway_rest_api.register_user_api.id
   resource_id             = aws_api_gateway_rest_api.register_user_api.root_resource_id
@@ -26,6 +38,12 @@ resource "aws_api_gateway_method_response" "proxy" {
   resource_id = aws_api_gateway_rest_api.register_user_api.root_resource_id
   http_method = aws_api_gateway_method.proxy.http_method
   status_code = "200"
+  //cors section
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = true,
+    "method.response.header.Access-Control-Allow-Methods" = true,
+    "method.response.header.Access-Control-Allow-Origin" = true
+  }
 }
 
 resource "aws_api_gateway_integration_response" "proxy" {
@@ -33,6 +51,13 @@ resource "aws_api_gateway_integration_response" "proxy" {
   resource_id = aws_api_gateway_rest_api.register_user_api.root_resource_id
   http_method = aws_api_gateway_method.proxy.http_method
   status_code = aws_api_gateway_method_response.proxy.status_code
+
+  //cors
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" =  "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+    "method.response.header.Access-Control-Allow-Methods" = "'GET,OPTIONS,POST,PUT'",
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+  }
 
   depends_on = [
     aws_api_gateway_method.proxy,
