@@ -22,7 +22,12 @@ def lambda_handler(event, context):
         # }
         db_table.put_item(Item=query_string)
         print(f"Register user: {query_string} successfully")
-        return {"message": "Registered User Successfully"}
+        return {
+            "statusCode": 200,
+            "headers": {"Content-Type": "application/json"},
+            "body": "{\"message\":\"Registered User Successfully\"}",
+            "isBase64Encoded": False
+        }
     except Exception as error_details:
         print(error_details)
         return {"message": "Error registering user. Check Logs for more details."}
