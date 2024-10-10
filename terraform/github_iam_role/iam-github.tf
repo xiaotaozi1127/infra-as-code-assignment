@@ -138,6 +138,35 @@ resource "aws_iam_policy" "iam" {
           "lambda:UpdateFunctionCode"
         ],
         "Resource" : "*"
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "apigateway:*",
+        ],
+        "Resource" : [
+          "arn:aws:apigateway:ap-southeast-2::/restapis"
+        ]
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "apigateway:*",
+        ],
+        "Resource" : [
+          "arn:aws:apigateway:ap-southeast-2::/restapis/*"
+        ]
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "lambda:AddPermission",
+          "lambda:RemovePermission",
+          "lambda:GetPolicy",
+        ],
+        "Resource" : [
+          "arn:aws:lambda:ap-southeast-2:160071257600:function:*"
+        ]
       }
     ]
   })
