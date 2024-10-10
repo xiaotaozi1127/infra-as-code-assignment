@@ -10,8 +10,7 @@ resource "aws_api_gateway_rest_api" "register_user_api" {
 resource "aws_api_gateway_resource" "root" {
   rest_api_id = aws_api_gateway_rest_api.register_user_api.id
   parent_id   = aws_api_gateway_rest_api.register_user_api.root_resource_id
-  path_part = "/"
-#  path_part   = "{proxy+}"  # This enables the proxy integration
+  path_part   = "{proxy+}"  # This enables the proxy integration
 }
 
 resource "aws_api_gateway_method" "proxy" {
@@ -26,7 +25,7 @@ resource "aws_api_gateway_integration" "lambda_integration" {
   resource_id             = aws_api_gateway_resource.root.id
   http_method             = aws_api_gateway_method.proxy.http_method
   integration_http_method = "POST"  # Lambda integration uses POST
-  type                    = "AWS"
+  type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.functions[0].invoke_arn
 }
 
