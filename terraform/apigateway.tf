@@ -43,9 +43,46 @@ resource "aws_api_gateway_integration_response" "proxy" {
 resource "aws_api_gateway_deployment" "register_user_api_deployment" {
   depends_on = [aws_api_gateway_integration.lambda_integration]
   rest_api_id = aws_api_gateway_rest_api.register_user_api.id
+  triggers = {
+    redeployment = sha1(jsonencode(aws_api_gateway_rest_api.register_user_api.body))
+  }
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+# Create a CloudWatch Log Group for API Gateway
+resource "aws_cloudwatch_log_group" "api_gateway_logs" {
+  name = "/aws/apigateway/${aws_api_gateway_rest_api.register_user_api.name}"
+  retention_in_days = 7  # Adjust retention period as needed
+}
+
+# Enable CloudWatch logging for your API Gateway stage
+resource "aws_api_gateway_stage" "register_user_api_stage" {
+  depends_on = [aws_cloudwatch_log_group.api_gateway_logs]
+  rest_api_id = aws_api_gateway_rest_api.register_user_api.id
   stage_name  = "default"
+
+  # Attach the logging role to the stage
+  deployment_id = aws_api_gateway_deployment.register_user_api_deployment.id
+  access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.api_gateway_logs.arn
+    format          = jsonencode({
+      requestId      = "$context.requestId",
+      ip             = "$context.identity.sourceIp",
+      requestTime    = "$context.requestTime",
+      httpMethod     = "$context.httpMethod",
+      resourcePath   = "$context.resourcePath",
+      status         = "$context.status",
+      protocol       = "$context.protocol",
+      responseLength = "$context.responseLength"
+    })
+  }
 }
 
 output "api_gateway_register_user_invoke_url" {
   value = aws_api_gateway_deployment.register_user_api_deployment.invoke_url
 }
+
+
+
