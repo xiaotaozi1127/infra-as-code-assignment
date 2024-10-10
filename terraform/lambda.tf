@@ -41,6 +41,18 @@ resource "aws_iam_role" "lambda_exec" {
   })
 }
 
+resource "aws_lambda_permission" "allow_api_gateway" {
+  count = length(var.functions)
+
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = var.functions[count.index].function_name
+  principal     = "apigateway.amazonaws.com"
+
+  # The source ARN for the permission
+  source_arn = "${aws_api_gateway_rest_api.register_user_api.execution_arn}/*/*"
+}
+
 resource "aws_iam_policy" "dynamodb_manage_item" {
   name        = "DynamoDBManageItemPolicy"
   description = "Policy to allow DynamoDB access"
