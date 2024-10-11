@@ -9,7 +9,7 @@ resource "aws_api_gateway_rest_api" "apis" {
   }
 }
 
-# For the root resource ('/') in AWS API Gateway, you do not explicitly create a resource for it in Terraform;
+# For the root resource ('/') in AWS API Gateway, you do not explicitly create a resource for it;
 # Instead, you directly associate methods with the API itself.
 resource "aws_api_gateway_method" "proxy" {
   count = length(var.functions)
@@ -64,11 +64,10 @@ resource "aws_cloudwatch_log_group" "api_gateway_logs" {
   retention_in_days = 7 # Adjust retention period as needed
 }
 
-# A stage represents a version of the API and allows you to manage and deploy multiple versions of your API independently
+# A stage represents a version of the API and allows you to manage multiple versions of your API
 resource "aws_api_gateway_stage" "stages" {
   count = length(var.functions)
 
-  depends_on    = [aws_cloudwatch_log_group.api_gateway_logs[count.index].arn]
   stage_name    = var.stage_name
   rest_api_id   = aws_api_gateway_rest_api.apis[count.index].id
   deployment_id = aws_api_gateway_deployment.deployment[count.index].id
