@@ -16,7 +16,7 @@ resource "aws_api_gateway_resource" "resources" {
 
   rest_api_id = aws_api_gateway_rest_api.apis[0].id
   parent_id   = aws_api_gateway_rest_api.apis[0].root_resource_id
-  path_part   = count.index == 0 ? "register": null
+  path_part   = count.index == 0 ? "register": ""
 }
 
 # For the root resource ('/') in AWS API Gateway, you do not explicitly create a resource for it;
