@@ -39,8 +39,15 @@ jobs:
         run: tflint --recursive
 
       # Add steps to deploy your terraform code here
-      - name: Deploy resources
+      - name: Destroy resources
         run: |
           cd terraform
           terraform init
           terraform destroy -auto-approve
+
+      - name: Deploy resources
+        run: |
+          cd terraform
+          terraform init
+          terraform plan
+          terraform apply -auto-approve
