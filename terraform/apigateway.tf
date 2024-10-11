@@ -67,7 +67,7 @@ resource "aws_api_gateway_stage" "default" {
 }
 
 resource "aws_iam_role" "api_gateway_role" {
-  name = "api_gateway_role"
+  name = format("%s_api_gateway_role", var.prefix)
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -84,7 +84,7 @@ resource "aws_iam_role" "api_gateway_role" {
 }
 
 resource "aws_iam_policy" "api_gateway_logging_policy" {
-  name        = "api_gateway_logging_policy"
+  name        = format("%s_api_gateway_logging_policy", var.prefix)
   description = "Policy to allow API Gateway to log to CloudWatch"
 
   policy = jsonencode({
