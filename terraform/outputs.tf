@@ -16,7 +16,7 @@ output "api_gateway_role_arn" {
   value = aws_iam_role.api_gateway_role.arn
 }
 
-output "api_gateway_register_user_invoke_url" {
+output "api_gateway_invoke_url" {
   value = [for deployment in aws_api_gateway_deployment.deployment : deployment.invoke_url]
 }
 
