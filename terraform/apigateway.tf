@@ -58,6 +58,7 @@ resource "aws_api_gateway_stage" "default" {
   stage_name  = var.stage_name
   rest_api_id = aws_api_gateway_rest_api.register_user_api.id
   deployment_id = aws_api_gateway_deployment.deployment.id
+  role_arn = aws_iam_role.api_gateway_role.arn
 
   # Attach the logging role to the stage
   access_log_settings {
