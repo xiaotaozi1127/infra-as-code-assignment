@@ -55,14 +55,13 @@ resource "aws_api_gateway_deployment" "deployment" {
   }
 }
 
-# Create a CloudWatch Log Group for API Gateway
-resource "aws_cloudwatch_log_group" "api_gateway_logs" {
-  count = length(var.functions)
-
-  name = format("/aws/apigateway/%s/%s/%s", var.prefix,
-  aws_api_gateway_rest_api.apis[count.index].name, var.stage_name)
-  retention_in_days = 7 # Adjust retention period as needed
-}
+## Create a CloudWatch Log Group for API Gateway
+#resource "aws_cloudwatch_log_group" "api_gateway_logs" {
+#  count = length(var.functions)
+#
+#  name = format("/aws/apigateway/%s/%s", aws_api_gateway_rest_api.apis[count.index].name, var.stage_name)
+#  retention_in_days = 7 # Adjust retention period as needed
+#}
 
 # A stage represents a version of the API and allows you to manage multiple versions of your API
 resource "aws_api_gateway_stage" "stages" {
@@ -72,11 +71,11 @@ resource "aws_api_gateway_stage" "stages" {
   rest_api_id   = aws_api_gateway_rest_api.apis[count.index].id
   deployment_id = aws_api_gateway_deployment.deployment[count.index].id
 
-  # Attach the logging role to the stage
-  access_log_settings {
-    destination_arn = aws_cloudwatch_log_group.api_gateway_logs[count.index].arn
-    format          = "$context.requestId $context.status $context.responseLength"
-  }
+#  # Attach the logging role to the stage
+#  access_log_settings {
+#    destination_arn = aws_cloudwatch_log_group.api_gateway_logs[count.index].arn
+#    format          = "$context.requestId $context.status $context.responseLength"
+#  }
 }
 
 resource "aws_iam_role" "api_gateway_role" {
