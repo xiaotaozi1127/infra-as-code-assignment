@@ -20,18 +20,18 @@ resource "aws_api_gateway_method" "proxy" {
   authorization = "NONE"
 }
 
-#resource "aws_api_gateway_method_settings" "all" {
-#  count       = length(var.functions)
-#  rest_api_id = aws_api_gateway_rest_api.apis[count.index].id
-#  stage_name  = aws_api_gateway_stage.stages[count.index].stage_name
-#  method_path = "*/*"
-#
-#  settings {
-#    logging_level      = "INFO"
-#    metrics_enabled    = true
-#    data_trace_enabled = true
-#  }
-#}
+resource "aws_api_gateway_method_settings" "all" {
+  count       = length(var.functions)
+  rest_api_id = aws_api_gateway_rest_api.apis[count.index].id
+  stage_name  = aws_api_gateway_stage.stages[count.index].stage_name
+  method_path = "*/*"
+
+  settings {
+    logging_level      = "INFO"
+    metrics_enabled    = true
+    data_trace_enabled = true
+  }
+}
 
 //In Lambda proxy integration, set the integration's HTTP method to POST,
 //the integration endpoint URI to the ARN of the Lambda function invocation action of a specific Lambda function,
