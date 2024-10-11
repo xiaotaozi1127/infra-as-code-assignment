@@ -33,12 +33,15 @@ resource "aws_api_gateway_method_settings" "all" {
   }
 }
 
+//In Lambda proxy integration, set the integration's HTTP method to POST,
+//the integration endpoint URI to the ARN of the Lambda function invocation action of a specific Lambda function,
+//and grant API Gateway permission to call the Lambda function on your behalf.
 resource "aws_api_gateway_integration" "lambda_integration" {
   count                   = length(var.functions)
   rest_api_id             = aws_api_gateway_rest_api.apis[count.index].id
   resource_id             = aws_api_gateway_rest_api.apis[count.index].root_resource_id
   http_method             = aws_api_gateway_method.proxy[count.index].http_method
-  integration_http_method = var.functions[count.index].method
+  integration_http_method = "POST" //you must use POST for Lambda proxy integration
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.functions[count.index].invoke_arn
 }
