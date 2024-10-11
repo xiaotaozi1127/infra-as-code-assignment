@@ -12,6 +12,12 @@ output "lambda_function_arns" {
   value       = [for function in aws_lambda_function.functions : function.invoke_arn]
 }
 
+output "api_gateway_role_arn" {
+  value = aws_iam_role.api_gateway_role.arn
+}
+
 output "api_gateway_register_user_invoke_url" {
   value = aws_api_gateway_deployment.deployment.invoke_url
 }
+
+
