@@ -1,9 +1,9 @@
 resource "aws_lambda_function" "functions" {
   depends_on = [module.s3_bucket, aws_dynamodb_table.user-info-table, aws_iam_role.lambda_exec]
-  count = length(var.functions)
+  count      = length(var.functions)
 
   function_name = format("%s_%s", var.prefix, var.functions[count.index].name)
-  timeout       = 30  # Set the timeout to 30 seconds, default value is 3 seconds
+  timeout       = 30 # Set the timeout to 30 seconds, default value is 3 seconds
   runtime       = "python3.10"
   # The handler name in AWS Lambda should be specified in the format: <filename>.<function_name>
   handler = format("%s.lambda_handler", var.functions[count.index].name)

@@ -10,8 +10,8 @@ module "s3_bucket" {
 
 resource "aws_s3_object" "webpages" {
   depends_on = [module.s3_bucket]
-  bucket = format("%s-website-bucket", var.prefix)
-  count  = length(var.webpages)
+  bucket     = format("%s-website-bucket", var.prefix)
+  count      = length(var.webpages)
 
   key    = var.webpages[count.index].name
   source = var.webpages[count.index].name
