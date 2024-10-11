@@ -68,7 +68,7 @@ resource "aws_cloudwatch_log_group" "api_gateway_logs" {
 resource "aws_api_gateway_stage" "stages" {
   count = length(var.functions)
 
-  depends_on    = [aws_cloudwatch_log_group.api_gateway_logs[count.index]]
+  depends_on    = [aws_cloudwatch_log_group.api_gateway_logs[count.index].arn]
   stage_name    = var.stage_name
   rest_api_id   = aws_api_gateway_rest_api.apis[count.index].id
   deployment_id = aws_api_gateway_deployment.deployment[count.index].id
