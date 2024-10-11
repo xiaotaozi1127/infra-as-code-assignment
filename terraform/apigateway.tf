@@ -57,9 +57,10 @@ resource "aws_api_gateway_deployment" "deployment" {
 
 # Create a CloudWatch Log Group for API Gateway
 resource "aws_cloudwatch_log_group" "api_gateway_logs" {
-  count             = length(var.functions)
+  count = length(var.functions)
 
-  name              = format("API-Gateway-Execution-Logs_%s/%s", aws_api_gateway_rest_api.apis[count.index].id, var.stage_name)
+  name = format("/aws/apigateway/%s/%s/%s", var.prefix,
+  aws_api_gateway_rest_api.apis[count.index].name, var.stage_name)
   retention_in_days = 7 # Adjust retention period as needed
 }
 

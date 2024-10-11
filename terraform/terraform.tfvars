@@ -11,11 +11,11 @@ webpages = [
 ]
 functions = [
   {
-    name = "register_user",
+    name   = "register_user",
     method = "POST",
   },
   {
-    name = "verify_user",
+    name   = "verify_user",
     method = "GET",
   }
 ]
