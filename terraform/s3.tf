@@ -9,6 +9,7 @@ module "s3_bucket" {
 }
 
 resource "aws_s3_object" "webpages" {
+  depends_on = [module.s3_bucket]
   bucket = format("%s-website-bucket", var.prefix)
   count  = length(var.webpages)
 
