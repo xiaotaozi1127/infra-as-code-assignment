@@ -4,5 +4,5 @@ output "lambda_function_arns" {
 }
 
 output "api_gateway_register_user_invoke_url" {
-  value = aws_api_gateway_deployment.register_user_api_deployment.invoke_url
+  value = aws_api_gateway_deployment.deployment.invoke_url
 }
