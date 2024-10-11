@@ -23,7 +23,7 @@ resource "aws_api_gateway_method" "proxy" {
 resource "aws_api_gateway_method_settings" "all" {
   count       = length(var.functions)
   rest_api_id = aws_api_gateway_rest_api.apis[count.index].id
-  stage_name  = aws_api_gateway_stage.default[count.index].stage_name
+  stage_name  = aws_api_gateway_stage.stages[count.index].stage_name
   method_path = "*/*"
 
   settings {
@@ -64,11 +64,11 @@ resource "aws_cloudwatch_log_group" "api_gateway_logs" {
   retention_in_days = 7 # Adjust retention period as needed
 }
 
-# Enable CloudWatch logging for your API Gateway stage
-resource "aws_api_gateway_stage" "default" {
+# A stage represents a version of the API and allows you to manage and deploy multiple versions of your API independently
+resource "aws_api_gateway_stage" "stages" {
   count = length(var.functions)
 
-  depends_on    = [aws_cloudwatch_log_group.api_gateway_logs]
+  depends_on    = [aws_cloudwatch_log_group.api_gateway_logs[count.index]]
   stage_name    = var.stage_name
   rest_api_id   = aws_api_gateway_rest_api.apis[count.index].id
   deployment_id = aws_api_gateway_deployment.deployment[count.index].id
