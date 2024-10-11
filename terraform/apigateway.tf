@@ -14,12 +14,12 @@ resource "aws_api_gateway_method" "proxy" {
 
 resource "aws_api_gateway_method_settings" "all" {
   rest_api_id = aws_api_gateway_rest_api.register_user_api.id
-  stage_name  = aws_api_gateway_stage.register_user_api_stage.stage_name
+  stage_name  = aws_api_gateway_stage.default.stage_name
   method_path = "*/*"
 
   settings {
-    metrics_enabled = true
     logging_level   = "INFO"
+    metrics_enabled = true
     data_trace_enabled = true
   }
 }
@@ -66,42 +66,31 @@ resource "aws_api_gateway_integration_response" "proxy" {
 }
 
 resource "aws_api_gateway_deployment" "register_user_api_deployment" {
-  depends_on = [aws_api_gateway_integration.lambda_integration]
+  depends_on = [aws_api_gateway_integration.lambda_integration, aws_api_gateway_stage.default]
   rest_api_id = aws_api_gateway_rest_api.register_user_api.id
+  stage_name = aws_api_gateway_stage.default.stage_name
   triggers = {
     redeployment = sha1(jsonencode(aws_api_gateway_rest_api.register_user_api.body))
-  }
-  lifecycle {
-    create_before_destroy = true
   }
 }
 
 # Create a CloudWatch Log Group for API Gateway
 resource "aws_cloudwatch_log_group" "api_gateway_logs" {
-  name = "/aws/apigateway/${aws_api_gateway_rest_api.register_user_api.name}"
+  name = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.register_user_api.id}/${aws_api_gateway_stage.default.stage_name}"
   retention_in_days = 7  # Adjust retention period as needed
 }
 
 # Enable CloudWatch logging for your API Gateway stage
-resource "aws_api_gateway_stage" "register_user_api_stage" {
+resource "aws_api_gateway_stage" "default" {
   depends_on = [aws_cloudwatch_log_group.api_gateway_logs]
-  rest_api_id = aws_api_gateway_rest_api.register_user_api.id
   stage_name  = "default"
+  rest_api_id = aws_api_gateway_rest_api.register_user_api.id
+  deployment_id = aws_api_gateway_deployment.register_user_api_deployment.id
 
   # Attach the logging role to the stage
-  deployment_id = aws_api_gateway_deployment.register_user_api_deployment.id
   access_log_settings {
     destination_arn = aws_cloudwatch_log_group.api_gateway_logs.arn
-    format          = jsonencode({
-      requestId      = "$context.requestId",
-      ip             = "$context.identity.sourceIp",
-      requestTime    = "$context.requestTime",
-      httpMethod     = "$context.httpMethod",
-      resourcePath   = "$context.resourcePath",
-      status         = "$context.status",
-      protocol       = "$context.protocol",
-      responseLength = "$context.responseLength"
-    })
+    format          = "$context.requestId $context.status $context.responseLength"
   }
 }
 
