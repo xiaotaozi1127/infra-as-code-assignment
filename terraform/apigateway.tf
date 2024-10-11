@@ -78,7 +78,7 @@ resource "aws_api_gateway_deployment" "register_user_api_deployment" {
 
 # Create a CloudWatch Log Group for API Gateway
 resource "aws_cloudwatch_log_group" "api_gateway_logs" {
-  name = "${var.prefix}/apigateway/${aws_api_gateway_rest_api.register_user_api.name}"
+  name = "/aws/apigateway/${aws_api_gateway_rest_api.register_user_api.name}"
   retention_in_days = 7  # Adjust retention period as needed
 }
 
