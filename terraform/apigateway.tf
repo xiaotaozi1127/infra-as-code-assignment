@@ -9,13 +9,23 @@ resource "aws_api_gateway_rest_api" "apis" {
   }
 }
 
+# Step 2: Create Resources
+# Root resource (implicitly created with the API)
+resource "aws_api_gateway_resource" "resources" {
+  count = length(var.functions)
+
+  rest_api_id = aws_api_gateway_rest_api.apis[0].id
+  parent_id   = aws_api_gateway_rest_api.apis[0].root_resource_id
+  path_part   = count.index == 0 ? "register": null
+}
+
 # For the root resource ('/') in AWS API Gateway, you do not explicitly create a resource for it;
 # Instead, you directly associate methods with the API itself.
 resource "aws_api_gateway_method" "proxy" {
   count = length(var.functions)
 
   rest_api_id   = aws_api_gateway_rest_api.apis[count.index].id
-  resource_id   = aws_api_gateway_rest_api.apis[count.index].root_resource_id
+  resource_id   = aws_api_gateway_resource.resources[count.index].id
   http_method   = var.functions[count.index].method
   authorization = "NONE"
 }
@@ -39,7 +49,7 @@ resource "aws_api_gateway_method_settings" "all" {
 resource "aws_api_gateway_integration" "lambda_integration" {
   count                   = length(var.functions)
   rest_api_id             = aws_api_gateway_rest_api.apis[count.index].id
-  resource_id             = aws_api_gateway_rest_api.apis[count.index].root_resource_id
+  resource_id             = aws_api_gateway_resource.resources[count.index].id
   http_method             = aws_api_gateway_method.proxy[count.index].http_method
   integration_http_method = "POST" //you must use POST for Lambda proxy integration
   type                    = "AWS_PROXY"
