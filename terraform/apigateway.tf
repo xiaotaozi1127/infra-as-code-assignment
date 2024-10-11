@@ -65,19 +65,19 @@ resource "aws_cloudwatch_log_group" "api_gateway_logs" {
 }
 
 # A stage represents a version of the API and allows you to manage multiple versions of your API
-#resource "aws_api_gateway_stage" "stages" {
-#  count = length(var.functions)
-#
-#  stage_name    = var.stage_name
-#  rest_api_id   = aws_api_gateway_rest_api.apis[count.index].id
-#  deployment_id = aws_api_gateway_deployment.deployment[count.index].id
-#
-#  # Attach the logging role to the stage
-#  access_log_settings {
-#    destination_arn = aws_cloudwatch_log_group.api_gateway_logs[count.index].arn
-#    format          = "$context.requestId $context.status $context.responseLength"
-#  }
-#}
+resource "aws_api_gateway_stage" "stages" {
+  count = length(var.functions)
+
+  stage_name    = var.stage_name
+  rest_api_id   = aws_api_gateway_rest_api.apis[count.index].id
+  deployment_id = aws_api_gateway_deployment.deployment[count.index].id
+
+  # Attach the logging role to the stage
+  access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.api_gateway_logs[count.index].arn
+    format          = "$context.requestId $context.status $context.responseLength"
+  }
+}
 
 resource "aws_iam_role" "api_gateway_role" {
   name = format("%s_api_gateway_role", var.prefix)

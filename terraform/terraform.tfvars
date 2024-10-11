@@ -1,6 +1,6 @@
 prefix     = "tw-infra-taohui"
 region     = "ap-southeast-2"
-stage_name = "default"
+stage_name = "dev"
 webpages = [
   {
     name = "index.html"
