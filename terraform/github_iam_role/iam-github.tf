@@ -160,6 +160,16 @@ resource "aws_iam_policy" "iam" {
       {
         "Effect" : "Allow",
         "Action" : [
+          "apigateway:GET",
+          "apigateway:PATCH",
+        ],
+        "Resource" : [
+          "arn:aws:apigateway:ap-southeast-2::/account"
+        ]
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
           "lambda:AddPermission",
           "lambda:RemovePermission",
           "lambda:GetPolicy",
