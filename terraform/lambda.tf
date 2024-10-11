@@ -25,7 +25,7 @@ resource "aws_lambda_function" "functions" {
 }
 
 resource "aws_iam_role" "lambda_exec" {
-  name = "serverless_lambda"
+  name = format("%s_lambda_iam_role", var.prefix)
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -44,7 +44,7 @@ resource "aws_iam_role" "lambda_exec" {
 resource "aws_lambda_permission" "allow_api_gateway" {
   count = length(var.functions)
 
-  statement_id  = "AllowExecutionFromAPIGateway"
+  statement_id  = "AllowExecutionFromAPIGateway${count.index}"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.functions[count.index].function_name
   principal     = "apigateway.amazonaws.com"
@@ -53,8 +53,8 @@ resource "aws_lambda_permission" "allow_api_gateway" {
   source_arn = "${aws_api_gateway_rest_api.apis[count.index].execution_arn}/*/*"
 }
 
-resource "aws_iam_policy" "dynamodb_manage_item" {
-  name        = "DynamoDBManageItemPolicy"
+resource "aws_iam_policy" "allow_dynamodb" {
+  name        = format("%s_dynamodb_policy", var.prefix)
   description = "Policy to allow DynamoDB access"
 
   policy = jsonencode({
@@ -72,8 +72,8 @@ resource "aws_iam_policy" "dynamodb_manage_item" {
   })
 }
 
-resource "aws_iam_policy" "website_bucket_permission" {
-  name        = "WebsiteBucketPolicy"
+resource "aws_iam_policy" "allow_website_bucket" {
+  name        = format("%s_s3_policy", var.prefix)
   description = "Policy to allow S3 bucket access"
 
   policy = jsonencode({
@@ -99,11 +99,11 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
 resource "aws_iam_role_policy_attachment" "dynamodb_policy" {
   depends_on = [aws_iam_role.lambda_exec]
   role       = aws_iam_role.lambda_exec.name
-  policy_arn = aws_iam_policy.dynamodb_manage_item.arn
+  policy_arn = aws_iam_policy.allow_dynamodb.arn
 }
 
 resource "aws_iam_role_policy_attachment" "s3_policy" {
   depends_on = [aws_iam_role.lambda_exec]
   role       = aws_iam_role.lambda_exec.name
-  policy_arn = aws_iam_policy.website_bucket_permission.arn
+  policy_arn = aws_iam_policy.allow_website_bucket.arn
 }
