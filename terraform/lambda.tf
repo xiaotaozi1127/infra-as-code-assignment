@@ -50,7 +50,7 @@ resource "aws_lambda_permission" "allow_api_gateway" {
   principal     = "apigateway.amazonaws.com"
 
   # The source ARN for the permission
-  source_arn = "${aws_api_gateway_rest_api.register_user_api.execution_arn}/*/*"
+  source_arn = "${aws_api_gateway_rest_api.apis[count.index].execution_arn}/*/*"
 }
 
 resource "aws_iam_policy" "dynamodb_manage_item" {
