@@ -65,10 +65,10 @@ resource "aws_api_gateway_integration_response" "proxy" {
   ]
 }
 
-resource "aws_api_gateway_deployment" "register_user_api_deployment" {
-  depends_on = [aws_api_gateway_integration.lambda_integration, aws_api_gateway_stage.default]
+resource "aws_api_gateway_deployment" "deployment" {
+  depends_on = [aws_api_gateway_integration.lambda_integration]
   rest_api_id = aws_api_gateway_rest_api.register_user_api.id
-  stage_name = aws_api_gateway_stage.default.stage_name
+  stage_name = var.stage_name
   triggers = {
     redeployment = sha1(jsonencode(aws_api_gateway_rest_api.register_user_api.body))
   }
@@ -85,7 +85,7 @@ resource "aws_api_gateway_stage" "default" {
   depends_on = [aws_cloudwatch_log_group.api_gateway_logs]
   stage_name  = var.stage_name
   rest_api_id = aws_api_gateway_rest_api.register_user_api.id
-  deployment_id = aws_api_gateway_deployment.register_user_api_deployment.id
+  deployment_id = aws_api_gateway_deployment.deployment.id
 
   # Attach the logging role to the stage
   access_log_settings {
