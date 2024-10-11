@@ -107,8 +107,3 @@ resource "aws_iam_role_policy_attachment" "s3_policy" {
   role       = aws_iam_role.lambda_exec.name
   policy_arn = aws_iam_policy.website_bucket_permission.arn
 }
-
-output "lambda_function_arns" {
-  description = "The ARNs for the lambda functions."
-  value       = [for function in aws_lambda_function.functions : function.invoke_arn]
-}

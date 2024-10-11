@@ -83,7 +83,7 @@ resource "aws_cloudwatch_log_group" "api_gateway_logs" {
 # Enable CloudWatch logging for your API Gateway stage
 resource "aws_api_gateway_stage" "default" {
   depends_on = [aws_cloudwatch_log_group.api_gateway_logs]
-  stage_name  = "default"
+  stage_name  = var.stage_name
   rest_api_id = aws_api_gateway_rest_api.register_user_api.id
   deployment_id = aws_api_gateway_deployment.register_user_api_deployment.id
 
@@ -92,10 +92,6 @@ resource "aws_api_gateway_stage" "default" {
     destination_arn = aws_cloudwatch_log_group.api_gateway_logs.arn
     format          = "$context.requestId $context.status $context.responseLength"
   }
-}
-
-output "api_gateway_register_user_invoke_url" {
-  value = aws_api_gateway_deployment.register_user_api_deployment.invoke_url
 }
 
 

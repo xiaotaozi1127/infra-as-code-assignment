@@ -8,6 +8,11 @@ variable "region" {
   description = "Region to deploy the solution"
 }
 
+variable "stage_name" {
+  type        = string
+  description = "Stage of the api gateway deployment"
+}
+
 variable "webpages" {
   type = list(any)
 }
