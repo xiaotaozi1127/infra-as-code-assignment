@@ -58,7 +58,6 @@ resource "aws_api_gateway_stage" "default" {
   stage_name  = var.stage_name
   rest_api_id = aws_api_gateway_rest_api.register_user_api.id
   deployment_id = aws_api_gateway_deployment.deployment.id
-  role_arn = aws_iam_role.api_gateway_role.arn
 
   # Attach the logging role to the stage
   access_log_settings {
@@ -111,6 +110,10 @@ resource "aws_iam_policy" "api_gateway_logging_policy" {
 resource "aws_iam_role_policy_attachment" "attach_logging_policy" {
   role       = aws_iam_role.api_gateway_role.name
   policy_arn = aws_iam_policy.api_gateway_logging_policy.arn
+}
+
+resource "aws_api_gateway_account" "demo" {
+  cloudwatch_role_arn = aws_iam_role.api_gateway_role.arn
 }
 
 
