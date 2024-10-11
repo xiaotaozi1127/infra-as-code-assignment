@@ -8,11 +8,6 @@ module "s3_bucket" {
   object_ownership         = "ObjectWriter"
 }
 
-# Reference the outputs from the module
-output "website_bucket_id" {
-  value = module.s3_bucket.s3_bucket_id
-}
-
 resource "aws_s3_object" "webpages" {
   bucket = format("%s-website-bucket", var.prefix)
   count  = length(var.webpages)

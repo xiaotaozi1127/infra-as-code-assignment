@@ -9,6 +9,3 @@ resource "aws_dynamodb_table" "user-info-table" {
   }
 }
 
-output "dynamodb_table_id" {
-  value = aws_dynamodb_table.user-info-table.id
-}
