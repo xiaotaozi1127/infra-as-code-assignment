@@ -42,6 +42,7 @@ resource "aws_api_gateway_api_key" "api_key" {
 }
 
 resource "aws_api_gateway_usage_plan" "usage_plan" {
+  depends_on = [aws_api_gateway_stage.stages]
   name        = "UsagePlan"
   description = "Usage plan for the API"
   api_stages {
