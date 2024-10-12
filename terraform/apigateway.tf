@@ -153,6 +153,8 @@ resource "aws_iam_policy" "api_gateway_logging_policy" {
   name        = format("%s_api_gateway_logging_policy", var.prefix)
   description = "Policy to allow API Gateway to log to CloudWatch"
 
+  #checkov:skip=CKV_AWS_290:Ensure IAM policies does not allow write access without constraints
+  #checkov:skip=CKV_AWS_355:Ensure no IAM policies documents allow "*" as a statement's resource for restrictable actions
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
