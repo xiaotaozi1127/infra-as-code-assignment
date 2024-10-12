@@ -28,11 +28,11 @@ For other aws resources, which include api-gateway, lambda functions, s3 and dyn
 
 ### Update Lambda functions Logic
 We have 2 lambda functions in this project.
-- The lambda function `register_user` is used to register the user and store the user data in dynamodb table. 
-- The lambda function `verify_user` is used to verify the user by checking the user data in dynamodb table.
+- function `register_user` is used to register the user and store the user data in dynamodb table. 
+- function `verify_user` is used to verify the user by checking the user data in dynamodb table.
 
 When we configure the terraform for lambda function, we need to provide the zip file for the lambda function.
-The following commands are used to generate the zip file for the lambda function. Please upload the zip file whenever lambda function logic changes.
+The following command is used to generate the zip file for the lambda function. Please upload the zip file whenever lambda function logic changes.
 ```bash
 cd src
 zip -r register_user.zip register_user.py
@@ -56,9 +56,9 @@ you can check the detailed log in cloudwatch log group `/aws/lambda/tw-infra-tao
 
 ### Try API Gateway APIs
 If you want to test from api gateway directly, you need to find invoke url from the api stage. The invoke url is like `https://{api-id}.execute-api.ap-southeast-2.amazonaws.com/{stage_name}/`  
-Enable to ensure the security, we use api key to protect the api gateway. You can find the api key from the api gateway.
+In order to ensure the security, we use api key to protect our apis. You can find the api key value from aws console.
 
-Example API for register user: `https://bcgtiuk4z7.execute-api.ap-southeast-2.amazonaws.com/default/register`, you can test it like below:
+Example invoke url for register user api: `https://bcgtiuk4z7.execute-api.ap-southeast-2.amazonaws.com/default/register`, you can test it like below:
 ```
 curl -X POST https://bcgtiuk4z7.execute-api.ap-southeast-2.amazonaws.com/default/register?userid=taohui -H 'x-api-key: {api-key}'
 ```
@@ -69,7 +69,7 @@ Then, you should receive the response like below:
 }
 ```
 
-Example API for verify user: `https://rq5nizcyyi.execute-api.ap-southeast-2.amazonaws.com/default`, you can test it like below:
+Example invoke url for verify user api: `https://rq5nizcyyi.execute-api.ap-southeast-2.amazonaws.com/default`, you can test it like below:
 ```
 curl https://rq5nizcyyi.execute-api.ap-southeast-2.amazonaws.com/default?userid=taohui -H 'x-api-key: {api-key}'
 ```
@@ -83,7 +83,6 @@ On successfully verification, you should receive the [index html page](terraform
 However, if you try to verify a user that is not registered, [error html page](terraform/error.html) is fetched from s3.   
 
 you can check the detailed log in cloudwatch log group `API-Gateway-Execution-Logs_{rest-api-id}/{stage_name}`
-> AWS API Gateway automatically creates log groups following this naming convention when you enable logging for your API. If you create a custom log group with a different name, API Gateway may not send logs to that group, leading to missing logs.
 
 
 

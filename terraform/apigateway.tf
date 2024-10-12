@@ -102,12 +102,13 @@ resource "aws_api_gateway_deployment" "deployment" {
   }
 }
 
-# Customized the retention days for default log group
 resource "aws_cloudwatch_log_group" "api_gateway_logs" {
   count = length(var.functions)
 
   #checkov:skip=CKV_AWS_158:Ensure that CloudWatch Log Group is encrypted by KMS
 
+  # AWS API Gateway automatically creates log groups following this naming convention when you enable logging for your API.
+  # If you create a custom log group with a different name, API Gateway may not send logs to that group, leading to missing logs.
   name              = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.apis[count.index].id}/${var.stage_name}"
   retention_in_days = 365 # CloudWatch log groups must retain logs for a minimum duration of one year
 }
