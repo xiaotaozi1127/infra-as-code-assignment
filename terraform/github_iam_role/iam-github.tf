@@ -188,40 +188,15 @@ resource "aws_iam_policy" "iam" {
       {
         "Effect" : "Allow",
         "Action" : [
-          "apigateway:*",
-        ],
-        "Resource" : [
-          "arn:aws:apigateway:ap-southeast-2::/restapis"
-        ]
-      },
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "apigateway:*",
-        ],
-        "Resource" : [
-          "arn:aws:apigateway:ap-southeast-2::/restapis/*"
-        ]
-      },
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "apigateway:GET",
-          "apigateway:PATCH",
-        ],
-        "Resource" : [
-          "arn:aws:apigateway:ap-southeast-2::/account"
-        ]
-      },
-      {
-        "Effect" : "Allow",
-        "Action" : [
           "apigateway:POST",
           "apigateway:GET",
           "apigateway:PATCH",
           "apigateway:DELETE",
         ],
         "Resource" : [
+          "arn:aws:apigateway:ap-southeast-2::/account",
+          "arn:aws:apigateway:ap-southeast-2::/restapis",
+          "arn:aws:apigateway:ap-southeast-2::/restapis/*",
           "arn:aws:apigateway:ap-southeast-2::/apikeys",
           "arn:aws:apigateway:ap-southeast-2::/usageplans",
           "arn:aws:apigateway:ap-southeast-2::/apikeys/*",
