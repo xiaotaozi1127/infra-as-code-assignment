@@ -189,6 +189,7 @@ resource "aws_iam_policy" "iam" {
         "Effect" : "Allow",
         "Action" : [
           "apigateway:POST",
+          "apigateway:PUT",
           "apigateway:GET",
           "apigateway:PATCH",
           "apigateway:DELETE",
