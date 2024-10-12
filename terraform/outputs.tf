@@ -1,19 +1,13 @@
-# Reference the outputs from the module
-output "website_bucket_id" {
-  value = module.s3_bucket.s3_bucket_id
+output "website_bucket_arn" {
+  value = module.s3_bucket.s3_bucket_arn
 }
 
-output "dynamodb_table_id" {
-  value = aws_dynamodb_table.user-info-table.id
+output "dynamodb_table_arn" {
+  value = aws_dynamodb_table.user-info-table.arn
 }
 
-output "lambda_function_arns" {
-  description = "The ARNs for the lambda functions."
+output "lambda_function_arn" {
   value       = [for function in aws_lambda_function.functions : function.invoke_arn]
-}
-
-output "api_gateway_role_arn" {
-  value = aws_iam_role.api_gateway_role.arn
 }
 
 output "api_gateway_invoke_url" {
