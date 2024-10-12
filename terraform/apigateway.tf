@@ -21,7 +21,7 @@ locals {
 }
 
 resource "aws_api_gateway_method" "methods" {
-  count        = length(var.functions)
+  count = length(var.functions)
 
   rest_api_id   = aws_api_gateway_rest_api.apis[0].id
   resource_id   = local.api_resource_ids[count.index]
@@ -68,7 +68,7 @@ resource "aws_api_gateway_deployment" "deployment" {
 resource "aws_cloudwatch_log_group" "api_gateway_logs" {
   count = length(var.functions)
 
-  name = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.apis[count.index].id}/${var.stage_name}"
+  name              = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.apis[count.index].id}/${var.stage_name}"
   retention_in_days = 7 # Adjust retention period as needed
 }
 
