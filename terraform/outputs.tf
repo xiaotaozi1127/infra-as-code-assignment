@@ -7,7 +7,11 @@ output "dynamodb_table_arn" {
 }
 
 output "lambda_function_arn" {
-  value       = [for function in aws_lambda_function.functions : function.invoke_arn]
+  value = [for function in aws_lambda_function.functions : function.invoke_arn]
+}
+
+output "api_key" {
+  value = aws_api_gateway_api_key.api_key.value
 }
 
 output "api_gateway_invoke_url" {

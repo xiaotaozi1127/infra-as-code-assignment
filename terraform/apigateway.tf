@@ -7,6 +7,11 @@ resource "aws_api_gateway_rest_api" "apis" {
   endpoint_configuration {
     types = ["REGIONAL"]
   }
+
+  lifecycle {
+    // CloudFormation creates a new API Gateway first and then will delete the old one automatically.
+    create_before_destroy = true
+  }
 }
 
 # For the root resource ('/') in AWS API Gateway, you do not explicitly create a resource for it;
@@ -27,6 +32,32 @@ resource "aws_api_gateway_method" "methods" {
   resource_id   = local.api_resource_ids[count.index]
   http_method   = var.functions[count.index].method
   authorization = "NONE"
+  api_key_required = true
+}
+
+resource "aws_api_gateway_api_key" "api_key" {
+  name        = "ApiKey"
+  description = "API key for accessing the API"
+  enabled     = true
+}
+
+resource "aws_api_gateway_usage_plan" "usage_plan" {
+  name        = "UsagePlan"
+  description = "Usage plan for the API"
+  api_stages {
+    api_id = aws_api_gateway_rest_api.apis[0].id
+    stage  = var.stage_name  # Specify your deployment stage
+  }
+  api_stages {
+    api_id = aws_api_gateway_rest_api.apis[1].id
+    stage  = var.stage_name
+  }
+}
+
+resource "aws_api_gateway_usage_plan_key" "shared_usage_plan_key" {
+  key_id        = aws_api_gateway_api_key.api_key.id
+  key_type      = "API_KEY"
+  usage_plan_id = aws_api_gateway_usage_plan.usage_plan.id
 }
 
 resource "aws_api_gateway_method_settings" "all" {
