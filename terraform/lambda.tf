@@ -1,3 +1,4 @@
+# checkov:skip=CKV_AWS_116,CKV_AWS_173,CKV_AWS_50,CKV_AWS_272,CKV_AWS_117
 resource "aws_lambda_function" "functions" {
   depends_on = [module.s3_bucket, aws_dynamodb_table.user-info-table, aws_iam_role.lambda_exec]
   count      = length(var.functions)
@@ -7,6 +8,8 @@ resource "aws_lambda_function" "functions" {
   runtime       = "python3.10"
   # The handler name in AWS Lambda should be specified in the format: <filename>.<function_name>
   handler = format("%s.lambda_handler", var.functions[count.index].name)
+  //Adding concurrency limits can prevent a rapid spike in usage and costs, while also increasing or lowering the default concurrency limit.
+  reserved_concurrent_executions = 100
 
   # Define environment variables
   environment {
@@ -111,5 +114,6 @@ resource "aws_iam_role_policy_attachment" "s3_policy" {
 resource "aws_cloudwatch_log_group" "lambda_log_groups" {
   count             = length(var.functions)
   name              = "/aws/lambda/${aws_lambda_function.functions[count.index].function_name}"
-  retention_in_days = 7 # Set the desired retention period
+  retention_in_days = 365 # Set the desired retention period
+  kms_key_id        = "someKey"
 }

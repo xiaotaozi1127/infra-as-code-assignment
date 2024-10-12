@@ -28,10 +28,10 @@ locals {
 resource "aws_api_gateway_method" "methods" {
   count = length(var.functions)
 
-  rest_api_id   = aws_api_gateway_rest_api.apis[count.index].id
-  resource_id   = local.api_resource_ids[count.index]
-  http_method   = var.functions[count.index].method
-  authorization = "NONE"
+  rest_api_id      = aws_api_gateway_rest_api.apis[count.index].id
+  resource_id      = local.api_resource_ids[count.index]
+  http_method      = var.functions[count.index].method
+  authorization    = "NONE"
   api_key_required = true
 }
 
@@ -42,12 +42,12 @@ resource "aws_api_gateway_api_key" "api_key" {
 }
 
 resource "aws_api_gateway_usage_plan" "usage_plan" {
-  depends_on = [aws_api_gateway_stage.stages]
+  depends_on  = [aws_api_gateway_stage.stages]
   name        = "UsagePlan"
   description = "Usage plan for the API"
   api_stages {
     api_id = aws_api_gateway_rest_api.apis[0].id
-    stage  = var.stage_name  # Specify your deployment stage
+    stage  = var.stage_name # Specify your deployment stage
   }
   api_stages {
     api_id = aws_api_gateway_rest_api.apis[1].id
@@ -68,11 +68,11 @@ resource "aws_api_gateway_method_settings" "all" {
   method_path = "*/*"
 
   settings {
-    logging_level      = "INFO"
-    metrics_enabled    = true
+    logging_level        = "INFO"
+    metrics_enabled      = true
     caching_enabled      = true //This can reduce the load on your backend service and improve the overall responsiveness of your API.
     cache_data_encrypted = true
-    data_trace_enabled = false //If Data Trace is enabled, it could pose a security risk as it allows verbose logging of all data between the client and server.
+    data_trace_enabled   = false //If Data Trace is enabled, it could pose a security risk as it allows verbose logging of all data between the client and server.
   }
 }
 
@@ -98,8 +98,8 @@ resource "aws_api_gateway_deployment" "deployment" {
   }
   //creates a new deployment first and then will delete the old one automatically.
   lifecycle {
-   create_before_destroy = true
- }
+    create_before_destroy = true
+  }
 }
 
 # Customized the retention days for default log group
@@ -120,13 +120,13 @@ resource "aws_api_gateway_stage" "stages" {
   xray_tracing_enabled = true
   //With caching, you can reduce the number of calls made to your endpoint and also improve the latency of requests to your API
   cache_cluster_enabled = true
-  stage_name    = var.stage_name
-  rest_api_id   = aws_api_gateway_rest_api.apis[count.index].id
-  deployment_id = aws_api_gateway_deployment.deployment[count.index].id
+  stage_name            = var.stage_name
+  rest_api_id           = aws_api_gateway_rest_api.apis[count.index].id
+  deployment_id         = aws_api_gateway_deployment.deployment[count.index].id
 
-   access_log_settings {
-   destination_arn = aws_cloudwatch_log_group.api_gateway_logs[count.index].arn
-     format = "$context.identity.sourceIp - $context.identity.caller - [$context.requestTime] \"$context.httpMethod $context.resourcePath\" $context.status $context.responseLength"
+  access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.api_gateway_logs[count.index].arn
+    format          = "$context.identity.sourceIp - $context.identity.caller - [$context.requestTime] \"$context.httpMethod $context.resourcePath\" $context.status $context.responseLength"
   }
 }
 
