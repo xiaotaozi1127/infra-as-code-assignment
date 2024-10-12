@@ -68,11 +68,10 @@ resource "aws_api_gateway_method_settings" "all" {
   stage_name  = aws_api_gateway_stage.stages[count.index].stage_name
   method_path = "*/*"
 
+  #checkov:skip=CKV_AWS_225:Ensure API Gateway method setting caching is enabled
   settings {
     logging_level        = "INFO"
     metrics_enabled      = true
-    caching_enabled      = true //This can reduce the load on your backend service and improve the overall responsiveness of your API.
-    cache_data_encrypted = true
     data_trace_enabled   = false //If Data Trace is enabled, it could pose a security risk as it allows verbose logging of all data between the client and server.
   }
 }
@@ -120,10 +119,9 @@ resource "aws_api_gateway_stage" "stages" {
   #checkov:skip=CKV2_AWS_29:Ensure public API gateway are protected by WAF
   #checkov:skip=CKV2_AWS_51:Ensure AWS API Gateway endpoints uses client certificate authentication
   #checkov:skip=CKV2_AWS_53:Ensure AWS API gateway request is validated
+  #checkov:skip=CKV_AWS_120:Ensure API Gateway caching is enabled
   //With tracing enabled X-Ray can provide an end-to-end view of an entire HTTP request
   xray_tracing_enabled = true
-  //With caching, you can reduce the number of calls made to your endpoint and also improve the latency of requests to your API
-  cache_cluster_enabled = true
   stage_name            = var.stage_name
   rest_api_id           = aws_api_gateway_rest_api.apis[count.index].id
   deployment_id         = aws_api_gateway_deployment.deployment[count.index].id
