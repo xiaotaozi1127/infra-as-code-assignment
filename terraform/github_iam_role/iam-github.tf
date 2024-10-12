@@ -46,6 +46,31 @@ resource "aws_iam_policy" "iam" {
       {
         "Effect" : "Allow",
         "Action" : [
+          "logs:CreateLogGroup",
+          "logs:PutRetentionPolicy",
+          "logs:DescribeLogGroups",
+          "logs:ListTagsLogGroup",
+          "logs:DeleteLogGroup",
+          "iam:CreateRole",
+          "iam:GetRole",
+          "iam:PassRole",
+          "iam:DeleteRole",
+          "iam:CreatePolicy",
+          "iam:GetPolicy",
+          "iam:DeletePolicy",
+          "iam:GetPolicyVersion",
+          "iam:AttachRolePolicy",
+          "iam:ListRolePolicies",
+          "iam:ListPolicyVersions",
+          "iam:ListAttachedRolePolicies",
+          "iam:ListInstanceProfilesForRole",
+          "iam:DetachRolePolicy",
+        ],
+        "Resource" : "*"
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
           "s3:ListBucket"
         ],
         "Resource" : [
