@@ -21,6 +21,8 @@ resource "aws_dynamodb_table" "user-info-table" {
 }
 
 resource "aws_kms_key" "kms" {
-  description = "KMS key for DynamoDB table encryption"
+  description         = "KMS key for DynamoDB table encryption"
+  is_enabled          = true
+  enable_key_rotation = true
 }
 

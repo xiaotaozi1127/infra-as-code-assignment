@@ -37,7 +37,7 @@ jobs:
         run: pip install checkov
 
       - name: Checkov scan
-        run: checkov --directory terraform
+        run: checkov --directory terraform --quiet
 
       - name: Install TFLint
         run: |
