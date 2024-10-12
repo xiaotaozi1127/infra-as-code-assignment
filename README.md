@@ -73,12 +73,6 @@ Example invoke url for verify user api: `https://rq5nizcyyi.execute-api.ap-south
 ```
 curl https://rq5nizcyyi.execute-api.ap-southeast-2.amazonaws.com/default?userid=taohui -H 'x-api-key: {api-key}'
 ```
-Then, you should receive the response like below:
-```
-{
-    "message": "User Verified Successfully"
-}
-```
 On successfully verification, you should receive the [index html page](terraform/index.html) from s3. 
 However, if you try to verify a user that is not registered, [error html page](terraform/error.html) is fetched from s3.   
 
