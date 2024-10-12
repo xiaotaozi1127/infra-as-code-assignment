@@ -117,6 +117,7 @@ resource "aws_iam_policy" "iam" {
           "s3:GetBucketTagging",
           "s3:GetObjectTagging",
           "s3:GetBucketAcl",
+          "S3:PutBucketAcl",
           "s3:GetBucketCORS",
           "s3:GetObject",
           "s3:PutObject",

@@ -164,11 +164,10 @@ resource "aws_iam_policy" "api_gateway_logging_policy" {
           "logs:CreateLogStream",
           "logs:DescribeLogGroups",
           "logs:DescribeLogStreams",
-          "logs:PutLogEvents",
           "logs:GetLogEvents",
           "logs:FilterLogEvents",
         ]
-        Resource = aws_cloudwatch_log_group.api_gateway_logs
+        Resource = "*"
       }
     ]
   })
