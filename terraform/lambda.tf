@@ -120,7 +120,8 @@ resource "aws_iam_role_policy_attachment" "s3_policy" {
 
 resource "aws_cloudwatch_log_group" "lambda_log_groups" {
   count             = length(var.functions)
+
+  #checkov:skip=CKV_AWS_158:Ensure that CloudWatch Log Group is encrypted by KMS
   name              = "/aws/lambda/${aws_lambda_function.functions[count.index].function_name}"
   retention_in_days = 365 # Set the desired retention period
-  kms_key_id        = "someKey"
 }

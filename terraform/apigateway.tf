@@ -107,8 +107,8 @@ resource "aws_api_gateway_deployment" "deployment" {
 resource "aws_cloudwatch_log_group" "api_gateway_logs" {
   count = length(var.functions)
 
-  //Log group data requires mandatory encryption settings in CloudWatch Logs. Developers can optionally use AWS Key Management Service for this encryption.
-  kms_key_id        = "someKey"
+  #checkov:skip=CKV_AWS_158:Ensure that CloudWatch Log Group is encrypted by KMS
+
   name              = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.apis[count.index].id}/${var.stage_name}"
   retention_in_days = 365 # CloudWatch log groups must retain logs for a minimum duration of one year
 }

@@ -90,46 +90,38 @@ resource "aws_iam_policy" "iam" {
       {
         "Effect" : "Allow",
         "Action" : [
+          "s3:ListAllMyBuckets",
           "s3:ListBucket"
         ],
-        "Resource" : [
-          "arn:aws:s3:::tw-infra-taohui-tfstate"
-        ]
+        "Resource" : "*"
       },
       {
         "Effect" : "Allow",
         "Action" : [
-          "s3:ListAllMyBuckets"
-        ],
-        "Resource" : "arn:aws:s3:::*"
-      },
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "s3:ListAllMyBuckets"
-        ],
-        "Resource" : [
-          "arn:aws:s3:::tw-infra-taohui-tfstate",
-          "arn:aws:s3:::tw-infra-taohui-website-bucket"
-        ]
-      },
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "s3:CreateBucket"
-        ],
-        "Resource" : [
-          "arn:aws:s3:::tw-infra-taohui-website-bucket"
-        ]
-      },
-      {
-        "Effect" : "Allow",
-        "Action" : [
+          "s3:CreateBucket",
+          "S3:GetBucketPolicy",
+          "s3:GetBucketWebsite",
+          "s3:GetBucketVersioning",
+          "s3:GetAccelerateConfiguration",
+          "s3:GetBucketRequestPayment",
+          "s3:GetLifecycleConfiguration",
+          "S3:GetBucketReplication",
+          "s3:GetReplicationConfiguration",
+          "s3:GetEncryptionConfiguration",
+          "s3:GetBucketObjectLockConfiguration",
+          "s3:GetBucketPublicAccessBlock",
+          "s3:GetBucketOwnershipControls",
+          "s3:GetBucketLogging",
+          "s3:GetBucketTagging",
+          "s3:GetObjectTagging",
+          "s3:GetBucketAcl",
+          "s3:GetBucketCORS",
           "s3:GetObject",
           "s3:PutObject",
           "s3:DeleteObject"
         ],
         "Resource" : [
+          "arn:aws:s3:::tw-infra-taohui-website-bucket",
           "arn:aws:s3:::tw-infra-taohui-website-bucket/*"
         ]
       },
@@ -147,7 +139,9 @@ resource "aws_iam_policy" "iam" {
       {
         "Effect" : "Allow",
         "Action" : [
-          "dynamodb:CreateTable"
+          "dynamodb:CreateTable",
+          "dynamodb:DescribeTimeToLive",
+          "dynamodb:ListTagsOfResource",
         ],
         "Resource" : [
             "arn:aws:dynamodb:ap-southeast-2:160071257600:table/tw-infra-taohui-user-info-table"
