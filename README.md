@@ -17,13 +17,14 @@ For other aws resources, which include api-gateway, lambda functions, s3 and dyn
 - create dynamodb table for terraform state lock: tw-infra-taohui-tfstate-locks
 
 **Workflows**
-- deploy
+- deploy (triggered by push to main branch)
   - configure aws credentials
   - format terraform code
   - lint terraform code
   - identify security issues with checkov
   - deploy the infra resources
-- destroy
+- destroy (manually triggered)
+  - destroy the infra resources
 
 ### Update Lambda functions Logic
 We have 2 lambda functions in this project.
