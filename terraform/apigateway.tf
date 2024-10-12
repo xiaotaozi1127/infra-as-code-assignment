@@ -23,7 +23,7 @@ locals {
 resource "aws_api_gateway_method" "methods" {
   count = length(var.functions)
 
-  rest_api_id   = aws_api_gateway_rest_api.apis[0].id
+  rest_api_id   = aws_api_gateway_rest_api.apis[count.index].id
   resource_id   = local.api_resource_ids[count.index]
   http_method   = var.functions[count.index].http_method
   authorization = "NONE"
