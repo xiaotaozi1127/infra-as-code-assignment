@@ -36,29 +36,12 @@ mv verify_user.zip ../verify_user.zip
 ### Try Lambda Functions
 We choose Lambda Proxy Integration with AWS API Gateway, it means that API Gateway will pass the entire HTTP request to our Lambda function as a single event object. This integration allows you to handle the entire request and response cycle within your Lambda function.
 
-If you want to test the lambda functions manually, you can try below example request. Only `queryStringParameters` are used in lambda functions.
-```
+If you want to test the lambda functions from aws console, you can select template as `API Gateway HTTP API` and modify `queryStringParameters`, add `userid` param should be good, like below:
+```json
 {
-    "queryStringParameters":
-    {
-        "userid": "taohui"
-    },
-    "rawQueryString": "userid=taohui",
-    "requestContext":
-    {
-        "accountId": "123456789012",
-        "apiId": "api-id",
-        "http":
-        {
-            "method": "POST",
-            "path": "/",
-            "protocol": "HTTP/1.1",
-            "sourceIp": "192.168.0.1/32",
-            "userAgent": "agent"
-        },
-        "requestId": "id",
-        "stage": "$default",
-    }
+  "queryStringParameters": {
+    "userid": "taohui"
+  }
 }
 ```
 
@@ -68,9 +51,9 @@ You can find the detailed log from cloudwatch log group `API-Gateway-Execution-L
 
 AWS API Gateway automatically creates log groups following this naming convention when you enable logging for your API. If you create a custom log group with a different name, API Gateway may not send logs to that group, leading to missing logs.
 
-Example API for register user: `https://16o74rjuih.execute-api.ap-southeast-2.amazonaws.com/default/register`, you can test it like below:
+Example API for register user: `https://bcgtiuk4z7.execute-api.ap-southeast-2.amazonaws.com/default/register`, you can test it like below:
 ```
-curl -X POST https://16o74rjuih.execute-api.ap-southeast-2.amazonaws.com/default?userid=taohui
+curl -X POST https://bcgtiuk4z7.execute-api.ap-southeast-2.amazonaws.com/default/register?userid=taohui
 ```
 Then, you should receive the response like below:
 ```
