@@ -54,9 +54,12 @@ jobs:
       - Terraform_check
     runs-on: ubuntu-latest
     steps:
-    - name: Deploy resources
-      run: |
-        cd terraform
-        terraform init
-        terraform plan
-        terraform apply -auto-approve
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Deploy resources
+        run: |
+          cd terraform
+          terraform init
+          terraform plan
+          terraform apply -auto-approve
