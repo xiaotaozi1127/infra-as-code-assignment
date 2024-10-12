@@ -168,7 +168,7 @@ resource "aws_iam_policy" "api_gateway_logging_policy" {
           "logs:GetLogEvents",
           "logs:FilterLogEvents",
         ]
-        Resource = "*"
+        Resource = aws_cloudwatch_log_group.api_gateway_logs
       }
     ]
   })
