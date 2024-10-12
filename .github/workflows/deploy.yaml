@@ -38,12 +38,6 @@ jobs:
       - name: Terraform lint
         run: tflint --recursive
 
-      - name: Destroy resources
-        run: |
-          cd terraform
-          terraform init
-          terraform destroy -auto-approve
-
       - name: Deploy resources
         run: |
           cd terraform
