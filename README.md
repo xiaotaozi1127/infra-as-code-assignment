@@ -1,20 +1,18 @@
 # Infra as Code - Assignment for IaC Course
 
 ## Overview
-It provides api gateway to register and verify users. The api gateway is integrated with lambda function to handle the requests. The lambda function is written in python and it uses dynamodb to store the user data.
+We use terraform to deploy the infra resources. It will deploy api gateway which integrated with lambda functions to register and verify users. The lambda function is written in python and uses dynamodb to store the user data.   
+You can check the `src` directory for the lambda function code and `terraform` directory for the terraform configuration.
 
 ### Architecture
 ![Architecture](./images/assignment.png)
 
 ### Deployment
 In order to deploy the infrastructure with GHA workflow, we need to grant the permission to the GHA workflow. so, we created `tw-infra-taohui-github-actions-role` first.
-please check the `terraform/github_iam_role` for more details. you need to use local backend to manage the state and create the role first.
+please check the `terraform/github_iam_role` for more details. you need to use local backend to manage the state and create the role first.  
+For other aws resources, which include api-gateway, lambda functions, s3 and dynamodb table, we use remote backend to manage the state. 
 
-For other aws resources, which include api-gateway, lambda functions, s3 and dynamodb table, we use remote backend to manage the state. The terraform configuration is stored in the `terraform` directory. 
-GHA workflow is used to deploy the infrastructure.
-
-
-### Pre-requisites
+**Pre-requisites**
 - create s3 bucket for terraform state: tw-infra-taohui-tfstate
 - create dynamodb table for terraform state lock: tw-infra-taohui-tfstate-locks
 
@@ -44,12 +42,10 @@ If you want to test the lambda functions from aws console, you can select templa
   }
 }
 ```
+you can check the detailed log in cloudwatch log group `/aws/lambda/tw-infra-taohui_register_user` and `/aws/lambda/tw-infra-taohui_verify_user`
 
 ### Try API Gateway APIs
 If you want to test from api gateway directly, you need to find invoke url from the api stage. The invoke url is like `https://{api-id}.execute-api.ap-southeast-2.amazonaws.com/{stage_name}/`
-You can find the detailed log from cloudwatch log group `API-Gateway-Execution-Logs_{rest-api-id}/{stage_name}`
-
-AWS API Gateway automatically creates log groups following this naming convention when you enable logging for your API. If you create a custom log group with a different name, API Gateway may not send logs to that group, leading to missing logs.
 
 Example API for register user: `https://bcgtiuk4z7.execute-api.ap-southeast-2.amazonaws.com/default/register`, you can test it like below:
 ```
@@ -66,8 +62,12 @@ Example API for verify user: `https://rq5nizcyyi.execute-api.ap-southeast-2.amaz
 ```
 curl https://rq5nizcyyi.execute-api.ap-southeast-2.amazonaws.com/default?userid=taohui
 ```
-Then, you should receive the html page indicate success response. (configured by `index.html` in the `terraform` directory)
-However, if you try to verify a user that is not registered, you will receive the html page indicate failure response. (configured by `error.html` in the `terraform` directory)
+On successfully verification, you should receive the [index html page](terraform/index.html) from s3. 
+However, if you try to verify a user that is not registered, [error html page](terraform/error.html) is fetched from s3.   
+
+you can check the detailed log in cloudwatch log group `API-Gateway-Execution-Logs_{rest-api-id}/{stage_name}`
+> AWS API Gateway automatically creates log groups following this naming convention when you enable logging for your API. If you create a custom log group with a different name, API Gateway may not send logs to that group, leading to missing logs.
+
 
 
 
