@@ -55,11 +55,12 @@ If you want to test the lambda functions from aws console, you can select templa
 you can check the detailed log in cloudwatch log group `/aws/lambda/tw-infra-taohui_register_user` and `/aws/lambda/tw-infra-taohui_verify_user`
 
 ### Try API Gateway APIs
-If you want to test from api gateway directly, you need to find invoke url from the api stage. The invoke url is like `https://{api-id}.execute-api.ap-southeast-2.amazonaws.com/{stage_name}/`
+If you want to test from api gateway directly, you need to find invoke url from the api stage. The invoke url is like `https://{api-id}.execute-api.ap-southeast-2.amazonaws.com/{stage_name}/`  
+Enable to ensure the security, we use api key to protect the api gateway. You can find the api key from the api gateway.
 
 Example API for register user: `https://bcgtiuk4z7.execute-api.ap-southeast-2.amazonaws.com/default/register`, you can test it like below:
 ```
-curl -X POST https://bcgtiuk4z7.execute-api.ap-southeast-2.amazonaws.com/default/register?userid=taohui
+curl -X POST https://bcgtiuk4z7.execute-api.ap-southeast-2.amazonaws.com/default/register?userid=taohui -H 'x-api-key: {api-key}'
 ```
 Then, you should receive the response like below:
 ```
@@ -70,7 +71,13 @@ Then, you should receive the response like below:
 
 Example API for verify user: `https://rq5nizcyyi.execute-api.ap-southeast-2.amazonaws.com/default`, you can test it like below:
 ```
-curl https://rq5nizcyyi.execute-api.ap-southeast-2.amazonaws.com/default?userid=taohui
+curl https://rq5nizcyyi.execute-api.ap-southeast-2.amazonaws.com/default?userid=taohui -H 'x-api-key: {api-key}'
+```
+Then, you should receive the response like below:
+```
+{
+    "message": "User Verified Successfully"
+}
 ```
 On successfully verification, you should receive the [index html page](terraform/index.html) from s3. 
 However, if you try to verify a user that is not registered, [error html page](terraform/error.html) is fetched from s3.   
