@@ -161,11 +161,13 @@ resource "aws_iam_policy" "api_gateway_logging_policy" {
       {
         Effect = "Allow"
         Action = [
+          "logs:CreateLogGroup",
           "logs:CreateLogStream",
           "logs:DescribeLogGroups",
           "logs:DescribeLogStreams",
+          "logs:PutLogEvents",
           "logs:GetLogEvents",
-          "logs:FilterLogEvents",
+          "logs:FilterLogEvents"
         ]
         Resource = "*"
       }

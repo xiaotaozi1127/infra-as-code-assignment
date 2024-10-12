@@ -149,18 +149,11 @@ resource "aws_iam_policy" "iam" {
           "dynamodb:DeleteTable",
           "dynamodb:DescribeTimeToLive",
           "dynamodb:ListTagsOfResource",
-        ],
-        "Resource" : [
-            "arn:aws:dynamodb:ap-southeast-2:160071257600:table/tw-infra-taohui-user-info-table"
-        ]
-      },
-      {
-        "Effect" : "Allow",
-        "Action" : [
           "dynamodb:DescribeTable",
           "dynamodb:PutItem",
           "dynamodb:GetItem",
           "dynamodb:DescribeContinuousBackups",
+          "dynamodb:UpdateContinuousBackups",
         ],
         "Resource" : "arn:aws:dynamodb:ap-southeast-2:160071257600:table/tw-infra-taohui-user-info-table",
       },
@@ -183,7 +176,10 @@ resource "aws_iam_policy" "iam" {
           "lambda:DeleteFunction",
           "lambda:UpdateFunctionConfiguration",
           "lambda:UpdateFunctionCode",
-          "lambda:PutFunctionConcurrency"
+          "lambda:PutFunctionConcurrency",
+          "lambda:AddPermission",
+          "lambda:RemovePermission",
+          "lambda:GetPolicy",
         ],
         "Resource" : [
           "arn:aws:lambda:ap-southeast-2:160071257600:function:tw-infra-taohui*"
@@ -220,35 +216,16 @@ resource "aws_iam_policy" "iam" {
       {
         "Effect" : "Allow",
         "Action" : [
-          "apigateway:POST"
-        ],
-        "Resource" : [
-          "arn:aws:apigateway:ap-southeast-2::/apikeys",
-          "arn:aws:apigateway:ap-southeast-2::/usageplans"
-        ]
-      },
-      {
-        "Effect" : "Allow",
-        "Action" : [
+          "apigateway:POST",
           "apigateway:GET",
           "apigateway:PATCH",
           "apigateway:DELETE",
-          "apigateway:POST"
         ],
         "Resource" : [
+          "arn:aws:apigateway:ap-southeast-2::/apikeys",
+          "arn:aws:apigateway:ap-southeast-2::/usageplans",
           "arn:aws:apigateway:ap-southeast-2::/apikeys/*",
           "arn:aws:apigateway:ap-southeast-2::/usageplans/*"
-        ]
-      },
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "lambda:AddPermission",
-          "lambda:RemovePermission",
-          "lambda:GetPolicy",
-        ],
-        "Resource" : [
-          "arn:aws:lambda:ap-southeast-2:160071257600:function:*"
         ]
       }
     ]
