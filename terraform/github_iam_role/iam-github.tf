@@ -56,6 +56,7 @@ resource "aws_iam_policy" "iam" {
           "logs:ListTagsLogGroup",
           "logs:DeleteLogGroup",
           "logs:PutRetentionPolicy",
+          "logs:AssociateKmsKey",
         ],
         "Resource" : "arn:aws:logs:ap-southeast-2:160071257600:log-group:*"
       },
@@ -79,6 +80,7 @@ resource "aws_iam_policy" "iam" {
         "Action" : [
           "iam:CreatePolicy",
           "iam:GetPolicy",
+          "iam:CreatePolicyVersion",
           "iam:GetPolicyVersion",
           "iam:ListPolicyVersions",
           "iam:DeletePolicy",
@@ -93,6 +95,13 @@ resource "aws_iam_policy" "iam" {
         "Resource" : [
           "arn:aws:s3:::tw-infra-taohui-tfstate"
         ]
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "s3:ListAllMyBuckets"
+        ],
+        "Resource" : "arn:aws:s3:::*"
       },
       {
         "Effect" : "Allow",
@@ -147,8 +156,10 @@ resource "aws_iam_policy" "iam" {
       {
         "Effect" : "Allow",
         "Action" : [
+          "dynamodb:DescribeTable",
           "dynamodb:PutItem",
           "dynamodb:GetItem",
+          "dynamodb:DescribeContinuousBackups",
         ],
         "Resource" : "arn:aws:dynamodb:ap-southeast-2:160071257600:table/tw-infra-taohui-user-info-table",
       },
@@ -170,9 +181,12 @@ resource "aws_iam_policy" "iam" {
           "lambda:GetFunctionCodeSigningConfig",
           "lambda:DeleteFunction",
           "lambda:UpdateFunctionConfiguration",
-          "lambda:UpdateFunctionCode"
+          "lambda:UpdateFunctionCode",
+          "lambda:PutFunctionConcurrency"
         ],
-        "Resource" : "*"
+        "Resource" : [
+          "arn:aws:lambda:ap-southeast-2:160071257600:function:tw-infra-taohui*"
+        ]
       },
       {
         "Effect" : "Allow",

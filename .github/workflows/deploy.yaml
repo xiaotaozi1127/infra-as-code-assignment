@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  Terraform-Deploy:
+  Terraform_check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -49,9 +49,12 @@ jobs:
       - name: Terraform lint
         run: tflint --recursive
 
-      - name: Deploy resources
-        run: |
-          cd terraform
-          terraform init
-          terraform plan
-          terraform apply -auto-approve
+  Deploy_resources:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy resources
+      run: |
+        cd terraform
+        terraform init
+        terraform plan
+        terraform apply -auto-approve
