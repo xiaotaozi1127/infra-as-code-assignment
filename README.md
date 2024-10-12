@@ -16,6 +16,15 @@ For other aws resources, which include api-gateway, lambda functions, s3 and dyn
 - create s3 bucket for terraform state: tw-infra-taohui-tfstate
 - create dynamodb table for terraform state lock: tw-infra-taohui-tfstate-locks
 
+**Workflows**
+- deploy
+  - configure aws credentials
+  - format terraform code
+  - lint terraform code
+  - identify security issues with checkov
+  - deploy the infra resources
+- destroy
+
 ### Update Lambda functions Logic
 We have 2 lambda functions in this project.
 - The lambda function `register_user` is used to register the user and store the user data in dynamodb table. 
