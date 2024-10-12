@@ -70,7 +70,9 @@ resource "aws_api_gateway_method_settings" "all" {
   settings {
     logging_level      = "INFO"
     metrics_enabled    = true
-    data_trace_enabled = true
+    caching_enabled      = true //This can reduce the load on your backend service and improve the overall responsiveness of your API.
+    cache_data_encrypted = true
+    data_trace_enabled = false //If Data Trace is enabled, it could pose a security risk as it allows verbose logging of all data between the client and server.
   }
 }
 
@@ -94,23 +96,38 @@ resource "aws_api_gateway_deployment" "deployment" {
   triggers = {
     redeployment = sha1(jsonencode(aws_api_gateway_rest_api.apis[count.index].body))
   }
+  //creates a new deployment first and then will delete the old one automatically.
+  lifecycle {
+   create_before_destroy = true
+ }
 }
 
 # Customized the retention days for default log group
 resource "aws_cloudwatch_log_group" "api_gateway_logs" {
   count = length(var.functions)
 
+  //Log group data requires mandatory encryption settings in CloudWatch Logs. Developers can optionally use AWS Key Management Service for this encryption.
+  kms_key_id        = "someKey"
   name              = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.apis[count.index].id}/${var.stage_name}"
-  retention_in_days = 7 # Adjust retention period as needed
+  retention_in_days = 365 # CloudWatch log groups must retain logs for a minimum duration of one year
 }
 
 # A stage represents a version of the API and allows you to manage multiple versions of your API
 resource "aws_api_gateway_stage" "stages" {
   count = length(var.functions)
 
+  //With tracing enabled X-Ray can provide an end-to-end view of an entire HTTP request
+  xray_tracing_enabled = true
+  //With caching, you can reduce the number of calls made to your endpoint and also improve the latency of requests to your API
+  cache_cluster_enabled = true
   stage_name    = var.stage_name
   rest_api_id   = aws_api_gateway_rest_api.apis[count.index].id
   deployment_id = aws_api_gateway_deployment.deployment[count.index].id
+
+   access_log_settings {
+   destination_arn = aws_cloudwatch_log_group.api_gateway_logs[count.index].arn
+     format = "$context.identity.sourceIp - $context.identity.caller - [$context.requestTime] \"$context.httpMethod $context.resourcePath\" $context.status $context.responseLength"
+  }
 }
 
 resource "aws_iam_role" "api_gateway_role" {
@@ -148,7 +165,7 @@ resource "aws_iam_policy" "api_gateway_logging_policy" {
           "logs:GetLogEvents",
           "logs:FilterLogEvents"
         ]
-        Resource = "*"
+        Resource = aws_api_gateway_rest_api.apis
       }
     ]
   })
