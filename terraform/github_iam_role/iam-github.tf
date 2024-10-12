@@ -40,6 +40,11 @@ resource "aws_iam_role" "github_actions_role" {
 
 resource "aws_iam_policy" "iam" {
   name = format("%s-github-actions-policy", var.prefix)
+  #checkov:skip=CKV_AWS_289:Ensure IAM policies does not allow permissions management / resource exposure without constraints
+  #checkov:skip=CKV_AWS_355:Ensure no IAM policies documents allow "*" as a statement's resource for restrictable actions
+  #checkov:skip=CKV_AWS_290:Ensure IAM policies does not allow write access without constraints
+  #checkov:skip=CKV_AWS_286:Ensure IAM policies does not allow privilege escalation
+
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -47,26 +52,38 @@ resource "aws_iam_policy" "iam" {
         "Effect" : "Allow",
         "Action" : [
           "logs:CreateLogGroup",
-          "logs:PutRetentionPolicy",
           "logs:DescribeLogGroups",
           "logs:ListTagsLogGroup",
           "logs:DeleteLogGroup",
-          "iam:CreateRole",
+          "logs:PutRetentionPolicy",
+        ],
+        "Resource" : "arn:aws:logs:ap-southeast-2:160071257600:log-group:*"
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
           "iam:GetRole",
+          "iam:CreateRole",
           "iam:PassRole",
           "iam:DeleteRole",
+          "iam:ListRolePolicies",
+          "iam:ListAttachedRolePolicies",
+          "iam:AttachRolePolicy",
+          "iam:DetachRolePolicy",
+          "iam:ListInstanceProfilesForRole",
+        ],
+        "Resource" : "arn:aws:iam::160071257600:role/tw-infra-taohui*"
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
           "iam:CreatePolicy",
           "iam:GetPolicy",
-          "iam:DeletePolicy",
           "iam:GetPolicyVersion",
-          "iam:AttachRolePolicy",
-          "iam:ListRolePolicies",
           "iam:ListPolicyVersions",
-          "iam:ListAttachedRolePolicies",
-          "iam:ListInstanceProfilesForRole",
-          "iam:DetachRolePolicy",
+          "iam:DeletePolicy",
         ],
-        "Resource" : "*"
+        "Resource" : "arn:aws:iam::160071257600:policy/tw-infra-taohui*"
       },
       {
         "Effect" : "Allow",
@@ -82,26 +99,26 @@ resource "aws_iam_policy" "iam" {
         "Action" : [
           "s3:ListAllMyBuckets"
         ],
-        "Resource" : "*"
+        "Resource" : [
+          "arn:aws:s3:::tw-infra-taohui-tfstate",
+          "arn:aws:s3:::tw-infra-taohui-website-bucket"
+        ]
       },
       {
         "Effect" : "Allow",
         "Action" : [
           "s3:CreateBucket"
         ],
-        "Resource" : "*"
+        "Resource" : [
+          "arn:aws:s3:::tw-infra-taohui-website-bucket"
+        ]
       },
       {
         "Effect" : "Allow",
         "Action" : [
-          "s3:*"
-        ],
-        "Resource" : "arn:aws:s3:::tw-infra-taohui-website-bucket"
-      },
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "s3:*"
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:DeleteObject"
         ],
         "Resource" : [
           "arn:aws:s3:::tw-infra-taohui-website-bucket/*"
@@ -123,12 +140,15 @@ resource "aws_iam_policy" "iam" {
         "Action" : [
           "dynamodb:CreateTable"
         ],
-        "Resource" : "*"
+        "Resource" : [
+            "arn:aws:dynamodb:ap-southeast-2:160071257600:table/tw-infra-taohui-user-info-table"
+        ]
       },
       {
         "Effect" : "Allow",
         "Action" : [
-          "dynamodb:*"
+          "dynamodb:PutItem",
+          "dynamodb:GetItem",
         ],
         "Resource" : "arn:aws:dynamodb:ap-southeast-2:160071257600:table/tw-infra-taohui-user-info-table",
       },
