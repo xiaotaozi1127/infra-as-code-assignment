@@ -39,20 +39,10 @@ resource "aws_iam_role" "github_actions_role" {
 }
 
 resource "aws_iam_policy" "iam" {
-  name = format("%s-github-deployment-policy", var.prefix)
+  name = format("%s-github-actions-policy", var.prefix)
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "ssm:*",
-          "logs:*",
-          "cloudwatch:*",
-          "iam:*"
-        ],
-        "Resource" : "*"
-      },
       {
         "Effect" : "Allow",
         "Action" : [
@@ -183,7 +173,7 @@ resource "aws_iam_policy" "iam" {
 }
 
 resource "aws_iam_policy_attachment" "role_policy_attachment" {
-  name       = "Policy Attachement"
+  name       = "Policy Attachment"
   policy_arn = aws_iam_policy.iam.arn
   roles      = [aws_iam_role.github_actions_role.name]
 }
