@@ -28,6 +28,17 @@ jobs:
       - name: Terraform format
         run: terraform fmt --recursive
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.8'
+
+      - name: Install Checkov
+        run: pip install checkov
+
+      - name: Run Checkov
+        run: checkov -d terraform  # Scans terraform directory
+
       - name: Install TFLint
         run: |
           curl -L "https://github.com/terraform-linters/tflint/releases/latest/download/tflint_linux_amd64.zip" -o tflint.zip
