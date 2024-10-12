@@ -130,7 +130,7 @@ resource "aws_api_gateway_stage" "stages" {
 
   access_log_settings {
     destination_arn = aws_cloudwatch_log_group.api_gateway_logs[count.index].arn
-    format          = "$context.identity.sourceIp - $context.identity.caller - [$context.requestTime] \"$context.httpMethod $context.resourcePath\" $context.status $context.responseLength"
+    format          = "$context.identity.sourceIp - $context.identity.caller - $context.identity.user - $context.requestId - $context.httpMethod - $context.resourcePath - $context.status - $context.responseLength - $context.requestTime"
   }
 }
 
