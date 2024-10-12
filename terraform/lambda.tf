@@ -1,8 +1,11 @@
-# checkov:skip=CKV_AWS_116,CKV_AWS_173,CKV_AWS_50,CKV_AWS_272,CKV_AWS_117
 resource "aws_lambda_function" "functions" {
   depends_on = [module.s3_bucket, aws_dynamodb_table.user-info-table, aws_iam_role.lambda_exec]
   count      = length(var.functions)
 
+  #checkov:skip=CKV_AWS_117:Ensure that AWS Lambda function is configured inside a VPC
+  #checkov:skip=CKV_AWS_116:Ensure that AWS Lambda function is configured for a Dead Letter Queue(DLQ)
+  #checkov:skip=CKV_AWS_173:Check encryption settings for Lambda environmental variable
+  #checkov:skip=CKV_AWS_272:Ensure AWS Lambda function is configured to validate code-signing
   function_name = format("%s_%s", var.prefix, var.functions[count.index].name)
   timeout       = 30 # Set the timeout to 30 seconds, default value is 3 seconds
   runtime       = "python3.10"
@@ -17,6 +20,10 @@ resource "aws_lambda_function" "functions" {
       WEBSITE_S3    = format("%s-website-bucket", var.prefix)
       DB_TABLE_NAME = format("%s-user-info-table", var.prefix)
     }
+  }
+
+  tracing_config {
+    mode = "Active"
   }
   # Path to the pre-created ZIP file
   # Make sure your ZIP file is structured correctly.

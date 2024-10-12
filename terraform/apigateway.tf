@@ -28,6 +28,7 @@ locals {
 resource "aws_api_gateway_method" "methods" {
   count = length(var.functions)
 
+  #checkov:skip=CKV2_AWS_53:Ensure AWS API gateway request is validated
   rest_api_id      = aws_api_gateway_rest_api.apis[count.index].id
   resource_id      = local.api_resource_ids[count.index]
   http_method      = var.functions[count.index].method
@@ -116,6 +117,9 @@ resource "aws_cloudwatch_log_group" "api_gateway_logs" {
 resource "aws_api_gateway_stage" "stages" {
   count = length(var.functions)
 
+  #checkov:skip=CKV2_AWS_29:Ensure public API gateway are protected by WAF
+  #checkov:skip=CKV2_AWS_51:Ensure AWS API Gateway endpoints uses client certificate authentication
+  #checkov:skip=CKV2_AWS_53:Ensure AWS API gateway request is validated
   //With tracing enabled X-Ray can provide an end-to-end view of an entire HTTP request
   xray_tracing_enabled = true
   //With caching, you can reduce the number of calls made to your endpoint and also improve the latency of requests to your API

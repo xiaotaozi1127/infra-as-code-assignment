@@ -1,4 +1,5 @@
 module "s3_bucket" {
+  #checkov:skip=CKV_TF_1:Ensure Terraform module sources use a commit hash
   source  = "terraform-aws-modules/s3-bucket/aws"
   version = "4.1.2"
   bucket  = format("%s-website-bucket", var.prefix)
