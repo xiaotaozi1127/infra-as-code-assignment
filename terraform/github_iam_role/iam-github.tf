@@ -84,6 +84,7 @@ resource "aws_iam_policy" "iam" {
           "iam:GetPolicyVersion",
           "iam:ListPolicyVersions",
           "iam:DeletePolicy",
+          "iam:DeletePolicyVersion",
         ],
         "Resource" : "arn:aws:iam::160071257600:policy/tw-infra-taohui*"
       },
@@ -111,6 +112,7 @@ resource "aws_iam_policy" "iam" {
           "s3:GetBucketObjectLockConfiguration",
           "s3:GetBucketPublicAccessBlock",
           "s3:GetBucketOwnershipControls",
+          "s3:PutBucketOwnershipControls",
           "s3:GetBucketLogging",
           "s3:GetBucketTagging",
           "s3:GetObjectTagging",
@@ -118,7 +120,10 @@ resource "aws_iam_policy" "iam" {
           "s3:GetBucketCORS",
           "s3:GetObject",
           "s3:PutObject",
-          "s3:DeleteObject"
+          "S3:DeleteBucket",
+          "s3:DeleteObject",
+          "s3:PutBucketPublicAccessBlock",
+          "S3:DeletePublicAccessBlock",
         ],
         "Resource" : [
           "arn:aws:s3:::tw-infra-taohui-website-bucket",
@@ -140,6 +145,7 @@ resource "aws_iam_policy" "iam" {
         "Effect" : "Allow",
         "Action" : [
           "dynamodb:CreateTable",
+          "dynamodb:DeleteTable",
           "dynamodb:DescribeTimeToLive",
           "dynamodb:ListTagsOfResource",
         ],
