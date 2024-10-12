@@ -50,6 +50,8 @@ jobs:
         run: tflint --recursive
 
   Deploy_resources:
+    needs:
+      - Terraform_check
     runs-on: ubuntu-latest
     steps:
     - name: Deploy resources
